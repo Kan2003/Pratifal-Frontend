@@ -21,7 +21,7 @@ function App() {
           path="/dashboard"
           element={
             <PrivateRoute isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated}>
-              <Home />
+              <Home  setIsAuthenticated={setIsAuthenticated} />
             </PrivateRoute>
           }
         />
