@@ -9,6 +9,7 @@ const Login = ({setIsAuthenticated }) => {
   const [success, setSuccess] = useState("");
 
   const navigate = useNavigate();
+  
   const handleSubmit = async(e) => {
       e.preventDefault();
 
@@ -17,9 +18,8 @@ const Login = ({setIsAuthenticated }) => {
           email,
           password,
         })
-        console.log(Response)
+
         if (Response.data.success) { // Assuming success response from the API
-          console.log(Response)
           setSuccess("Login successful!");
           setIsAuthenticated(true)
           localStorage.setItem('isAuthenticated', 'true');
