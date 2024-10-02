@@ -47,7 +47,7 @@ const Register = () => {
   };
 
   return (
-    <div className="w-full h-screen bg-zinc-900 flex items-center justify-center relative">
+    <div className="w-full h-screen bg-zinc-900 flex justify-center relative">
       {error && (
         <div className=" absolute top-3 right-0 w-[30vw] bg-red-400 py-3 px-6">
           <p className="text-black text-center">{error}</p>
@@ -59,10 +59,10 @@ const Register = () => {
         </div>
       )}
 
-      <div className="w-[30vw] h-[80vh] py-4 px-8">
-        <div className="w-full">
+      <div className="w-[30vw] h-[60vh] pt-4 px-8">
+        <div className="w-full h-full">
           <h2 className="text-center text-3xl text-white py-3">Logo</h2>
-          <form className="my-24 px-8" onSubmit={handleSubmit}>
+          <form className="mt-12 px-8" onSubmit={handleSubmit}>
             <div className="mb-4">
               <label
                 className="block text-white text-lg font-medium mb-2"
