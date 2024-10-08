@@ -8,7 +8,8 @@ export default {
     extend: {
       fontFamily: {
         'press-start': ['"Press Start 2P"', 'cursive'],
-        "lato": ['Lato', 'sans-serif']
+        "lato": ['Lato', 'sans-serif'],
+        "headlandOne": ['Headland One', 'serif']
       },
     },
   },

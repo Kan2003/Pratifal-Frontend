@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { Navigate } from "react-router-dom";
-
+import RagisterLoginLayout from "./RagisterLoginLayout";
+import Input from "./littleComponents/Input";
+import cross from '../assets/cross-mark-svgrepo-com.svg'
 const Register = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -10,6 +11,61 @@ const Register = () => {
   const [fullName, setFullName] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+
+  const [showFullnameError, setShowFullnameError] = useState(false);
+  const [showUsernameError, setShowUsernameError] = useState(false);
+  const [showEmailError, setShowEmailError] = useState(false);
+  const [showPasswordError, setShowPasswordError] = useState(false);
+
+  const buttonError =
+    !showEmailError &&
+    !showPasswordError &&
+    !showFullnameError &&
+    !showUsernameError &&
+    fullName &&
+    name &&
+    password.length > 8 &&
+    email;
+
+  const handleBlur = (e) => {
+    if (e.target.id === "fullname") {
+      setShowFullnameError(fullName.trim() === "");
+    } else if (e.target.id === "name") {
+      setShowUsernameError(name.trim() === "");
+    } else if (e.target.id === "email") {
+      setShowEmailError(email.trim() === "" || !/^\S+@\S+\.\S+$/.test(email));
+    } else if (e.target.id === "password") {
+      setShowPasswordError(password.trim() === "" || password.length < 8);
+    }
+  };
+
+  const handleChange = (e) => {
+    if (e.target.id === "fullname") {
+      const value = e.target.value;
+      setFullName(value);
+      if (value.trim() !== "") {
+        setShowFullnameError(false);
+      }
+    } else if (e.target.id === "name") {
+      const value = e.target.value;
+      setName(value);
+      if (value.trim() !== "") {
+        setShowUsernameError(false);
+      }
+    } else if (e.target.id === "email") {
+      const value = e.target.value;
+      setEmail(value);
+      if (value.trim() !== "") {
+        setShowEmailError(false);
+      }
+    } else if (e.target.id === "password") {
+      const value = e.target.value;
+      setPassword(value);
+      if (value.trim() !== "") {
+        setShowPasswordError(false);
+      }
+    }
+  };
 
   const navigate = useNavigate();
 
@@ -33,23 +89,30 @@ const Register = () => {
         navigate("/login");
       }, 1000);
     } catch (error) {
-      setError("userName & Email already registered");
+      console.log(error);
+      console.log(error.response.status);
+      const status = error.response.status;
+      if (status === 500) {
+        setError("Internal Server Error, Please try again later.");
+      } else if (status === 400) {
+        setError("userName & Email already registered");
+      }
       setName("");
       setEmail("");
       setPassword("");
       setFullName("");
       setTimeout(() => {
         setError("");
-
         setSuccess("");
-      }, 3000);
+      }, 4000);
     }
   };
 
   return (
-    <div className="w-full h-screen bg-zinc-900 flex justify-center relative">
+    <div className="w-full h-screen bg-white flex items-center justify-center relative">
       {error && (
-        <div className=" absolute top-3 right-0 w-[30vw] bg-red-400 py-3 px-6">
+        <div className=" absolute transition-all duration-300 ease-in top-5 left-1/2 flex items-center gap-2 -translate-x-1/2 rounded-lg bg-[#00000013] py-2 px-6">
+          <img className="w-[20px] h-[20px]" src={cross} alt="" />
           <p className="text-black text-center">{error}</p>
         </div>
       )}
@@ -58,97 +121,67 @@ const Register = () => {
           <p className="text-black text-center">{success}</p>
         </div>
       )}
+      <RagisterLoginLayout />
+      <div className="w-[50vw] h-full flex items-start flex-col pt-[15vw] font-headlandOne px-[8vw]">
+        <h1>Logo</h1>
+        <form className="w-full h-full" onSubmit={handleSubmit}>
+          <Input
+            error={showFullnameError}
+            id="fullname"
+            type="text"
+            placeholder="Fullname"
+            value={fullName}
+            handleChange={handleChange}
+            handleBlur={handleBlur}
+            text="FullName should not be empty."
+          />
+          <Input
+            error={showUsernameError}
+            id="name"
+            type="text"
+            placeholder="Username"
+            value={name}
+            handleChange={handleChange}
+            handleBlur={handleBlur}
+            text="Username should not be empty"
+          />
+          <Input
+            error={showEmailError}
+            id="email"
+            type="email"
+            placeholder="Email"
+            value={email}
+            handleChange={handleChange}
+            handleBlur={handleBlur}
+            text="please provide valid email Address"
+          />
+          <Input
+            error={showPasswordError}
+            id="password"
+            type="password"
+            placeholder="Password"
+            value={password}
+            handleChange={handleChange}
+            handleBlur={handleBlur}
+            text="Password should contain more than 8 characters"
+          />
 
-      <div className="w-[30vw] h-[60vh] pt-4 px-8">
-        <div className="w-full h-full">
-          <h2 className="text-center text-3xl text-white py-3">Logo</h2>
-          <form className="mt-12 px-8" onSubmit={handleSubmit}>
-            <div className="mb-4">
-              <label
-                className="block text-white text-lg font-medium mb-2"
-                htmlFor="fullName"
-              >
-                Full Name
-              </label>
-              <input
-                className="shadow appearance-none border rounded w-full py-4 px-3 bg-zinc-900 text-white focus:outline-none focus:border-gray-500"
-                id="fullName"
-                type="text"
-                placeholder="Full Name"
-                required
-                value={fullName}
-                onChange={(e) => setFullName(e.target.value)}
-              />
-            </div>
-            <div className="mb-4">
-              <label
-                className="block text-white text-lg font-medium mb-2"
-                htmlFor="username"
-              >
-                Username
-              </label>
-              <input
-                className="shadow appearance-none border rounded w-full py-4 px-3 bg-zinc-900 text-white focus:outline-none focus:border-gray-500"
-                id="username"
-                type="text"
-                placeholder="Username"
-                required
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
-            </div>
-            <div className="mb-4">
-              <label
-                className="block text-white text-lg font-medium mb-2"
-                htmlFor="email"
-              >
-                Email
-              </label>
-              <input
-                className="shadow appearance-none border rounded w-full py-4 px-3 bg-zinc-900 text-white focus:outline-none focus:border-gray-500"
-                id="email"
-                type="email"
-                placeholder="Email Address"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
-            <div className="mb-4">
-              <label
-                className="block text-white text-lg font-medium mb-2"
-                htmlFor="password"
-              >
-                Password
-              </label>
-              <input
-                className="shadow appearance-none border rounded w-full py-4 px-3 bg-zinc-900 text-white focus:outline-none focus:border-gray-500"
-                id="password"
-                type="password"
-                placeholder="Password"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
-            <div className="flex w-full items-center justify-center">
-              <div className="text-white text-sm">
-                Already have an account?{" "}
-                <Link className="text-blue-500" to="/login">
-                  Login
-                </Link>
-              </div>
-            </div>
-            <div className="w-full text-center py-5">
-              <button
-                type="submit"
-                className="py-3 px-4 text-[18px] text-white bg-blue-500 rounded-md"
-              >
-                Register
-              </button>
-            </div>
-          </form>
-        </div>
+          <button
+            className={`w-full text-center  text-[14px] py-2 transition-all duration-300 ease-in-out rounded-lg ${
+              buttonError ? "bg-[#58B9ED]" : "bg-[#58b9ed54] cursor-not-allowed"
+            } `}
+            type="submit"
+          >
+            Create Your Account
+          </button>
+
+          <h3 className="text-sm text-center mt-2">
+            Already have an account?{" "}
+            <Link className="text-[#58B9ED]" to="/login">
+              Log In
+            </Link>{" "}
+          </h3>
+        </form>
       </div>
     </div>
   );
