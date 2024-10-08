@@ -12,7 +12,6 @@ const Input = ({error , id , type , placeholder , value , handleChange , handleB
       id={id}
       type={type}
       placeholder={placeholder}
-      required
       value={value}
       onChange={(e) => handleChange(e)}
       onBlur={handleBlur}

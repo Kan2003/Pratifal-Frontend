@@ -171,10 +171,10 @@ const Register = () => {
               buttonError ? "bg-[#58B9ED]" : "bg-[#58b9ed54] cursor-not-allowed"
             } `}
             type="submit"
+            disabled={!buttonError}
           >
             Create Your Account
           </button>
-
           <h3 className="text-sm text-center mt-2">
             Already have an account?{" "}
             <Link className="text-[#58B9ED]" to="/login">
