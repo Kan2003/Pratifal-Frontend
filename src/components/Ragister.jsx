@@ -4,6 +4,7 @@ import axios from "axios";
 import RagisterLoginLayout from "./RagisterLoginLayout";
 import Input from "./littleComponents/Input";
 import cross from '../assets/cross-mark-svgrepo-com.svg'
+import check from '../assets/check-svgrepo-com.svg'
 const Register = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -89,8 +90,6 @@ const Register = () => {
         navigate("/login");
       }, 1000);
     } catch (error) {
-      console.log(error);
-      console.log(error.response.status);
       const status = error.response.status;
       if (status === 500) {
         setError("Internal Server Error, Please try again later.");
@@ -117,9 +116,10 @@ const Register = () => {
         </div>
       )}
       {success && (
-        <div className=" absolute top-3 right-0 w-[30vw] bg-green-400 py-3 px-6">
-          <p className="text-black text-center">{success}</p>
-        </div>
+       <div className=" absolute transition-all duration-300 ease-in top-5 left-1/2 flex items-center gap-2 -translate-x-1/2 rounded-lg bg-[#00000013] py-2 px-6">
+       <img className="w-[20px] h-[20px]" src={check} alt="" />
+       <p className="text-black text-center">{success}</p>
+     </div>
       )}
       <RagisterLoginLayout />
       <div className="w-[50vw] h-full flex items-start flex-col pt-[15vw] font-headlandOne px-[8vw]">
@@ -177,7 +177,7 @@ const Register = () => {
           </button>
           <h3 className="text-sm text-center mt-2">
             Already have an account?{" "}
-            <Link className="text-[#58B9ED]" to="/login">
+            <Link className="text-[#58B9ED] underline" to="/login">
               Log In
             </Link>{" "}
           </h3>

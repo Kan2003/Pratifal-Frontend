@@ -1,114 +1,143 @@
-import axios from 'axios';
-import React, { useState } from 'react'
+import axios from "axios";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-const Login = ({setIsAuthenticated }) => {
+import RagisterLoginLayout from "./RagisterLoginLayout";
+import Input from "./littleComponents/Input";
+import cross from "../assets/cross-mark-svgrepo-com.svg";
+import check from "../assets/check-svgrepo-com.svg";
+
+const Login = ({ setIsAuthenticated }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
+  const [showEmailError, setShowEmailError] = useState(false);
+  const [showPasswordError, setShowPasswordError] = useState(false);
+
+  const buttonError =
+    !showEmailError && !showPasswordError && password.length > 8 && email;
+
+  const handleBlur = (e) => {
+    if (e.target.id === "email") {
+      setShowEmailError(email.trim() === "" || !/^\S+@\S+\.\S+$/.test(email));
+    } else if (e.target.id === "password") {
+      setShowPasswordError(password.trim() === "" || password.length < 8);
+    }
+  };
+
   const navigate = useNavigate();
-  
-  const handleSubmit = async(e) => {
-      e.preventDefault();
 
-      try {
-        const Response = await axios.post('/api/v2/users/login', {
-          email,
-          password,
-        })
+  const handleChange = (e) => {
+    if (e.target.id === "email") {
+      const value = e.target.value;
+      setEmail(value);
+      if (value.trim() !== "") {
+        setShowEmailError(false);
+      }
+    } else if (e.target.id === "password") {
+      const value = e.target.value;
+      setPassword(value);
+      if (value.trim() !== "") {
+        setShowPasswordError(false);
+      }
+    }
+  };
 
-        if (Response.data.success) { // Assuming success response from the API
-          setSuccess("Login successful!");
-          setIsAuthenticated(true)
-          localStorage.setItem('isAuthenticated', 'true');
-          navigate('/dashboard')
-        }
-      } catch (error) {
-        console.log(error)
-        setError("invalid credentials");
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const Response = await axios.post("/api/v2/users/login", {
+        email,
+        password,
+      });
+
+      if (Response.data.success) {
+        // Assuming success response from the API
+        setSuccess("Login successful!");
+        setIsAuthenticated(true);
+        localStorage.setItem("isAuthenticated", "true");
+        navigate("/dashboard");
+      }
+    } catch (error) {
+      console.log(error);
+      const status = error.response.status;
+      if (status === 500) {
+        setError("Internal Server Error, Please try again later.");
+      } else if (status === 401) {
+        setError("Invalid credentials");
+      }
+       else if (status === 404) {
+        setError("User not found");
+      }
       setEmail("");
       setPassword("");
       setTimeout(() => {
         setError("");
         setSuccess("");
       }, 3000);
-      }
-  }
+    }
+  };
   return (
-    <div className="w-full h-screen bg-zinc-900 flex items-center justify-center relative">
+    <div className="w-full h-screen flex items-center justify-center relative">
       {error && (
-        <div className=" absolute top-3 right-0 w-[30vw] bg-red-400 py-3 px-6">
+        <div className=" absolute transition-all duration-300 ease-in top-5 left-1/2 flex items-center gap-2 -translate-x-1/2 rounded-lg bg-[#00000013] py-2 px-6">
+          <img className="w-[20px] h-[20px]" src={cross} alt="" />
           <p className="text-black text-center">{error}</p>
         </div>
       )}
       {success && (
-        <div className=" absolute top-3 right-0 w-[30vw] bg-green-400 py-3 px-6">
+        <div className=" absolute transition-all duration-300 ease-in top-5 left-1/2 flex items-center gap-2 -translate-x-1/2 rounded-lg bg-[#00000013] py-2 px-6">
+          <img className="w-[20px] h-[20px]" src={check} alt="" />
           <p className="text-black text-center">{success}</p>
         </div>
       )}
 
-      <div className="w-[30vw] h-[80vh] py-4 px-8">
-        <div className="w-full">
-          <h2 className="text-center text-3xl text-white py-3">Logo</h2>
-          <form className="my-24 px-8" onSubmit={handleSubmit}>
+      <RagisterLoginLayout />
+      <div className="w-[50vw] h-full flex items-start flex-col pt-[15vw] font-headlandOne px-[8vw]">
+        <h1>Logo</h1>
+        <form className="w-full h-full" onSubmit={handleSubmit}>
+          <Input
+            error={showEmailError}
+            id="email"
+            type="email"
+            placeholder="Email"
+            value={email}
+            handleChange={handleChange}
+            handleBlur={handleBlur}
+            text="please provide valid email Address"
+          />
+          <Input
+            error={showPasswordError}
+            id="password"
+            type="password"
+            placeholder="Password"
+            value={password}
+            handleChange={handleChange}
+            handleBlur={handleBlur}
+            text="Password should contain more than 8 characters"
+          />
 
-            <div className="mb-4">
-              <label
-                className="block text-white text-lg font-medium mb-2"
-                htmlFor="email"
-              >
-                Email
-              </label>
-              <input
-                className="shadow appearance-none border rounded w-full py-4 px-3 bg-zinc-900 text-white focus:outline-none focus:border-gray-500"
-                id="email"
-                type="email"
-                placeholder="Email Address"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
-            <div className="mb-4">
-              <label
-                className="block text-white text-lg font-medium mb-2"
-                htmlFor="password"
-              >
-                Password
-              </label>
-              <input
-                className="shadow appearance-none border rounded w-full py-4 px-3 bg-zinc-900 text-white focus:outline-none focus:border-gray-500"
-                id="password"
-                type="password"
-                placeholder="Password"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
-            <div className="flex w-full items-center justify-center">
-              <div className="text-white text-sm">
-                Ragister yourself{" "}
-                <Link className="text-blue-500" to="/ragister">
-                  Ragister
-                </Link>
-              </div>
-            </div>
-            <div className="w-full text-center py-5">
-              <button
-                type="submit"
-                className="py-3 px-4 text-[18px] text-white bg-blue-500 rounded-md"
-              >
-                Login
-              </button>
-            </div>
-          </form>
-        </div>
+          <button
+            className={`w-full text-center  text-[14px] py-2 transition-all duration-300 ease-in-out rounded-lg ${
+              buttonError ? "bg-[#58B9ED]" : "bg-[#58b9ed54] cursor-not-allowed"
+            } `}
+            type="submit"
+            disabled={!buttonError}
+          >
+            Sign In
+          </button>
+          <h3 className="text-sm text-center mt-2">
+            Don't have an account{" "}
+            <Link className="text-[#58B9ED] underline" to="/ragister">
+              sign up with Email
+            </Link>{" "}
+          </h3>
+        </form>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;
