@@ -13,7 +13,8 @@ const PrivateRoute = ({ children, isAuthenticated, setIsAuthenticated }) => {
         const response = await axios.get("/api/v2/users/verify-token", {
           withCredentials: true,
         });
-        localStorage.setItem("isAuthenticated", response.data.isValid); // Update localStorage
+        localStorage.setItem("isAuthenticated", response.data.isValid);
+        // console.log(response.data.userId) // Update localStorage
         setIsAuthenticated(response.data.isValid); // Set state for App.js
       } catch (error) {
         console.error("Error verifying token:", error);

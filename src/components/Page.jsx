@@ -1,11 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import Lenis from "lenis";
 import SignupButton from "./littleComponents/SignupButton";
-import { useNavigate } from "react-router-dom";
 import speaker from "../assets/66f2e8b62f0f951eb6f22fb9_Frame.png";
 import video from "../assets/Untitled Video.mp4";
 import ColorButton from "./littleComponents/ColorButton";
+import axios from "axios";
 const Page = () => {
   useEffect(() => {
     const lenis = new Lenis();
@@ -20,9 +20,30 @@ const Page = () => {
     requestAnimationFrame(raf);
   });
 
+  const [user , setUser] = useState(false)
+  const [profile, setProfile] = useState(null)
+  useEffect(() => {
+    const userDetails = async() => {
+        try {
+          const response = await axios.get('/api/v2/users/')
+          console.log(response.data.data.profile)
+          if(response.status === 200){
+            setUser(true)
+            setProfile(response.data.data.profile)
+          }
+        } catch (error) {
+          console.log(error.status)
+          if(error.status === 401){
+            setUser(false)
+          }
+        }
+    }
+    userDetails();
+  },[])
+
   return (
     <div className="w-full  bg-slate-100 ">
-      <Navbar />
+      <Navbar user={user} profile={profile} />
       <div className="w-full   pt-[7vw] ">
         <div className="flex px-[2vw] items-center justify-center flex-col gap-5 py-14">
           <h1 className=" text-[40px] font-headlandOne ">
