@@ -1,9 +1,9 @@
 import React from "react";
-import speaker from "../assets/66f2e8b62f0f951eb6f22fb9_Frame.png";
-import instagram from "../assets/Instagram.svg";
-import linkedin from "../assets/LinkedIn.svg";
-import facebook from "../assets/Facebook.svg";
-import twitter from "../assets/Twitter.svg";
+import speaker from "../../assets/66f2e8b62f0f951eb6f22fb9_Frame.png";
+import instagram from "../../assets/Instagram.svg";
+import linkedin from "../../assets/LinkedIn.svg";
+import facebook from "../../assets/Facebook.svg";
+import twitter from "../../assets/Twitter.svg";
 
 const RagisterLoginLayout = () => {
   return (

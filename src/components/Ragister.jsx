@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import RagisterLoginLayout from "./RagisterLoginLayout";
+import RagisterLoginLayout from "./littleComponents/RagisterLoginLayout";
 import Input from "./littleComponents/Input";
 import cross from '../assets/cross-mark-svgrepo-com.svg'
 import check from '../assets/check-svgrepo-com.svg'
@@ -69,6 +69,14 @@ const Register = () => {
   };
 
   const navigate = useNavigate();
+
+  // const isLoggedIn = Boolean(localStorage.getItem("isAuthenticated")); // Replace with your authentication logic
+  // console.log(isLoggedIn)
+  // useEffect(() => {
+  //   if (isLoggedIn) {
+  //     navigate('/dashboard');
+  //   }
+  // }, [isLoggedIn, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent page reload

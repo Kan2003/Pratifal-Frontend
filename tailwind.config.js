@@ -9,7 +9,18 @@ export default {
       fontFamily: {
         'press-start': ['"Press Start 2P"', 'cursive'],
         "lato": ['Lato', 'sans-serif'],
-        "headlandOne": ['Headland One', 'serif']
+        "headlandOne": ['Headland One', 'serif'],
+        'hanken-grotesk': ['Hanken Grotesk', 'sans-serif'],
+        'Harmattan': ['Harmattan', 'sans-serif'],
+      },
+      fontWeight: {
+        'extra-light': 100,
+        'light': 300,
+        'normal': 400,
+        'medium': 500,
+        'semi-bold': 600,
+        'bold': 700,
+        'extra-bold': 900,
       },
     },
   },
