@@ -4,10 +4,9 @@ import image from "../assets/Frame 322.png";
 import profileImage from "../assets/Group 1000005837.svg";
 
 import IconButton from "./littleComponents/IconButton";
-import Input from "./littleComponents/Input";
 import Error from "./littleComponents/Error";
 import Success from "./littleComponents/Success";
-import axios from "axios";
+
 import EditProfile from "./littleComponents/EditProfile";
 const Profile = () => {
   const { user } = useContext(UserContext);
@@ -15,8 +14,19 @@ const Profile = () => {
   const [success, setSuccess] = useState("");
 
   const [editProfile, setEditProfile] = useState(false);
+  const [theme, setTheme] = useState(false);
+
+
+  const handleProfile = () => {
+    setEditProfile(true);
+    setTheme(false)
+  }
+  const handleTheme = () => {
+    setTheme(true);
+    setEditProfile(false)
+  }
   return (
-    <div className="w-full  pt-[5vw] ">
+    <div className="w-full  pt-[5vw] h-screen">
       <img className="w-full relative" src={image} alt="" />
       {error && <Error error={error} />}
       {success && <Success success={success} />}
@@ -67,22 +77,53 @@ const Profile = () => {
         </div>
       </div>
 
-
-      <div className="details w-full px-[10vw] flex gap-[10vw] pt-[4vw]   h-[50vh]">
+      <div className="details w-full px-[10vw] flex gap-[10vw] pt-[4vw] ">
         <div className="flex flex-col gap-4">
           <div
-            onClick={() => setEditProfile(!editProfile)}
+            onClick={handleProfile}
             className={`w-[13vw] ${
               editProfile ? "bg-[#58B9ED]" : "bg-slate-100"
-            }  px-2 py-3 text-center rounded-lg cursor-pointer  transition-all duration-500 ease-in-out`}
+            }  px-2 py-3 text-center rounded-lg cursor-pointer `}
           >
             <h4>Edit Profile Details</h4>
           </div>
-          <div className="w-[13vw] px-2 py-3 text-center rounded-lg bg-slate-100 cursor-pointer hover:bg-[#58B9ED] hover:text-black transition-all duration-500 ease-in-out">
+          <div onClick={handleTheme} 
+           className={`w-[13vw] ${
+            theme ? "bg-[#58B9ED]" : "bg-slate-100"
+          }  px-2 py-3 text-center rounded-lg cursor-pointer `}>
             <h4>Change Theme</h4>
           </div>
         </div>
-        {editProfile && (<EditProfile setError={setError} setSuccess={setSuccess}/>)}
+        {(editProfile && !theme) && (<EditProfile setError={setError} setSuccess={setSuccess}/>)}
+        {(theme && !editProfile)  && (
+          <div className="bg-slate-100 w-[55%]  px-4 py-2 rounded-lg gap-4 flex flex-col">
+             <h1 className="font-Harmattan text-[30px] opacity-[40%] text-center">Select Theme</h1>
+             <div className="w-full flex justify-center gap-3">
+              <div>
+                <div className="w-[45px] h-[45px] bg-zinc-500 cursor-pointer rounded-lg"></div>
+                <h5 className="text-[15px] text-center font-Harmattan">Black</h5>
+              </div>
+              <div>
+                <div className="w-[45px] h-[45px] bg-zinc-600 cursor-pointer rounded-lg"></div>
+                <h5 className="text-[15px] text-center font-Harmattan">Black</h5>
+              </div>
+              <div>
+                <div className="w-[45px] h-[45px] bg-zinc-700 cursor-pointer rounded-lg"></div>
+                <h5 className="text-[15px] text-center font-Harmattan">Black</h5>
+              </div>
+              <div>
+                <div className="w-[45px] h-[45px] bg-zinc-800 cursor-pointer rounded-lg"></div>
+                <h5 className="text-[15px] text-center font-Harmattan">Black</h5>
+              </div>
+              <div>
+                <div className="w-[45px] h-[45px] bg-zinc-900 cursor-pointer rounded-lg"></div>
+                <h5 className="text-[15px] text-center font-Harmattan">Black</h5>
+              </div>
+
+             </div>
+          </div>
+        )}
+
       </div>
     </div>
   );

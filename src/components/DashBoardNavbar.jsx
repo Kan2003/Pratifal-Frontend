@@ -7,7 +7,7 @@ import { Link, useLocation } from "react-router-dom";
 import { DownOutlined } from "@ant-design/icons";
 import { Dropdown } from "antd";
 
-const DashBoardNavbar = memo(({ user, userImage }) => {
+const DashBoardNavbar = memo(({ user, userImage , handleLogout}) => {
   const location = useLocation();
   console.log(location);
   const [drop, setDrop] = useState(false);
@@ -25,10 +25,6 @@ const DashBoardNavbar = memo(({ user, userImage }) => {
       key: "0",
     },
     {
-      label: <a href="https://www.aliyun.com">Update your details</a>,
-      key: "1",
-    },
-    {
       label: <a href="https://www.aliyun.com">Change Password</a>,
       key: "2",
     },
@@ -40,7 +36,10 @@ const DashBoardNavbar = memo(({ user, userImage }) => {
       type: "divider",
     },
     {
-      label: "Logout",
+      label: (
+        <h1 onClick={handleLogout}>LogOut</h1>
+      ),
+      
       key: "4",
     },
   ];
@@ -73,7 +72,7 @@ const DashBoardNavbar = memo(({ user, userImage }) => {
       {/* Right Part */}
       <div className="flex items-center gap-4 font-hanken-grotesk">
         {location.pathname === "/dashboard" && <IconButton text="create" />}
-        <div className="flex gap-3 border-[1px] stroke-[0.83] stroke-[#E8EFF]  items-center justify-between px-3  py-[7px] rounded-lg">
+        <div className="flex gap-4 border-[1px] stroke-[0.83] stroke-[#E8EFF]  items-center justify-between px-3  py-[7px] rounded-lg">
           <div className="flex gap-1 items-center">
             <Link
               to="/dashboard"

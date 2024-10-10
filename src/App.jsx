@@ -35,7 +35,7 @@ function App() {
               </UserContext.Provider>
             }
           >
-            <Route path="/dashboard" element={<Home setIsAuthenticated={setIsAuthenticated} />} />
+            <Route path="/dashboard" element={<Home />} />
             <Route path="/profile" element={<Profile user={user} />} />
           </Route>
         </Routes>

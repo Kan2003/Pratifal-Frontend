@@ -74,7 +74,7 @@ const EditProfile = ({ setError, setSuccess }) => {
   };
 
   return (
-    <div className="bg-slate-100 w-[50vw]  px-4 py-2">
+    <div className="bg-slate-100 w-[55%]  px-4 py-2 rounded-lg">
       <h1 className="font-Harmattan text-[30px] opacity-[40%]">Edit Profile</h1>
       <form className="w-[80%] py-[2vw] px-[5vw]" onSubmit={handleSubmit}>
         <Input

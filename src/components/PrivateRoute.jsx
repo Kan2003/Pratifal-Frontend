@@ -1,12 +1,13 @@
 import axios from "axios";
 import React, { useContext, useEffect, useState, useMemo } from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { UserContext } from "../App";
 import DashBoardNavbar from "./DashBoardNavbar";
 
 const PrivateRoute = ({ children, isAuthenticated, setIsAuthenticated }) => {
   const { user, setUser } = useContext(UserContext);
   const [tokens, setTokens] = useState({ accessToken: null, refreshToken: null });
+  const navigate = useNavigate();
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -24,7 +25,7 @@ const PrivateRoute = ({ children, isAuthenticated, setIsAuthenticated }) => {
     };
 
     checkAuth();
-  }, [setIsAuthenticated]);
+  }, []);
 
   const refreshTokenHandler = async () => {
     if (!tokens.refreshToken) return;
@@ -86,9 +87,24 @@ const PrivateRoute = ({ children, isAuthenticated, setIsAuthenticated }) => {
     return <Navigate to="/login" />;
   }
 
+  const handleLogout = async () => {
+    try {
+      const response = await axios.post('/api/v2/users/logout')
+      // console.log(response)
+      if(response)
+      {
+        localStorage.removeItem("isAuthenticated");
+      setIsAuthenticated(false);
+      navigate("/");
+      }
+    } catch (error) {
+      console.error("Error logging out:", error);
+    }
+  };
+
   return (
     <>
-      {isAuthenticated && <DashBoardNavbar user={user} userImage={user?.profile} />}
+      {isAuthenticated && <DashBoardNavbar handleLogout={handleLogout} user={user} userImage={user?.profile} />}
       {children}
     </>
   );

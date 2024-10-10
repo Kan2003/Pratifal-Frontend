@@ -14,13 +14,8 @@ const Card = () => {
     const handleClipboard = async () => {
         try {
           await navigator.clipboard.writeText(coupon);
-          console.log(coupon)
-        //   setCopy(true);
-        //   setTimeout(() => {
-        //     setCopy(false);
-        //   }, 2000);
         } catch (err) {
-            // setCopy('Failed to copy text');
+
             console.log(err)
         }
       };
@@ -28,7 +23,7 @@ const Card = () => {
 
   return (
     
-    <div className="w-[300px] h-[190px] rounded-2xl bg-[#D9D9D9] flex flex-col justify-between px-[10px] py-[8px] border-[1px] bg-bottom bg-cover border-zinc-500 shadow-lg  object-cover ">
+    <div className="w-[300px] h-[190px] rounded-2xl bg-[#d9d9d971] flex flex-col justify-between px-[10px] py-[8px] border-[1px] bg-bottom bg-cover border-zinc-500 shadow-lg  object-cover ">
        
       <div className="w-full flex items-center justify-end gap-2">
         <img className="w-[20px] cursor-pointer" src={edit} alt="" />
