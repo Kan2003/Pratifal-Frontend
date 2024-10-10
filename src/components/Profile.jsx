@@ -2,8 +2,7 @@ import React, { useContext } from "react";
 import { UserContext } from "../App";
 import image from "../assets/Frame 322.png";
 import profileImage from "../assets/Group 1000005837.svg";
-import userLogo from "../assets/user-svgrepo-com.svg";
-import emailLogo from "../assets/email-9-svgrepo-com.svg";
+
 import IconButton from "./littleComponents/IconButton";
 const Profile = () => {
   const { user } = useContext(UserContext);
