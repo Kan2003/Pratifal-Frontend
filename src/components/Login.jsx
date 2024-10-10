@@ -130,7 +130,7 @@ const Login = ({ setIsAuthenticated }) => {
           </button>
           <h3 className="text-sm text-center mt-2">
             Don't have an account{" "}
-            <Link className="text-[#58B9ED] underline" to="/ragister">
+            <Link className="text-[#58B9ED] underline" to="/register">
               sign up with Email
             </Link>{" "}
           </h3>

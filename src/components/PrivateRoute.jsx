@@ -1,76 +1,97 @@
 import axios from "axios";
-import React, { useEffect , useState } from "react";
+import React, { useContext, useEffect, useState, useMemo } from "react";
 import { Navigate } from "react-router-dom";
-
+import { UserContext } from "../App";
+import DashBoardNavbar from "./DashBoardNavbar";
 
 const PrivateRoute = ({ children, isAuthenticated, setIsAuthenticated }) => {
-  const [accessToken, setAccessToken] = useState(null);
-  const [refreshToken, setRefreshToken] = useState(null);
+  const { user, setUser } = useContext(UserContext);
+  const [tokens, setTokens] = useState({ accessToken: null, refreshToken: null });
 
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const response = await axios.get("/api/v2/users/verify-token", {
+        const { data } = await axios.get("/api/v2/users/verify-token", {
           withCredentials: true,
         });
-        localStorage.setItem("isAuthenticated", response.data.isValid);
-        // console.log(response.data.userId) // Update localStorage
-        setIsAuthenticated(response.data.isValid); // Set state for App.js
+        localStorage.setItem("isAuthenticated", data.isValid);
+        setIsAuthenticated(data.isValid);
       } catch (error) {
         console.error("Error verifying token:", error);
-        localStorage.removeItem("isAuthenticated"); // Clear localStorage on error
+        localStorage.removeItem("isAuthenticated");
         setIsAuthenticated(false);
       }
     };
 
     checkAuth();
-  }, []);
+  }, [setIsAuthenticated]);
 
   const refreshTokenHandler = async () => {
+    if (!tokens.refreshToken) return;
+
     try {
       console.log("Refreshing access token...");
-      const response = await axios.post("/api/v2/users/refresh-token", {
-        refreshToken,
+      const { data } = await axios.post("/api/v2/users/refresh-token", {
+        refreshToken: tokens.refreshToken,
       });
 
-      if (response.data.success) {
-        const newAccessToken = response.data.accessToken;
-        setAccessToken(newAccessToken);
+      if (data.success) {
+        const newAccessToken = data.accessToken;
+        setTokens((prev) => ({ ...prev, accessToken: newAccessToken }));
         console.log("Access token refreshed successfully:", newAccessToken);
-        // Update the access token in cookies or local storage (if applicable)
       } else {
-        console.error("Error refreshing token:", response.data.message);
-        // Handle token refresh failure (e.g., logout)
+        console.error("Error refreshing token:", data.message);
       }
     } catch (error) {
       console.error("Error refreshing token:", error);
-      // Handle token refresh failure (e.g., logout)
+    }
+  };
+
+  const checkTokenExpiry = () => {
+    console.log("Checking access token expiration...");
+    if (!tokens.accessToken) return;
+
+    const accessTokenExpiry = new Date(tokens.accessToken.exp * 1000);
+    console.log("Access Token Expiry Time:", accessTokenExpiry);
+    const timeDiff = accessTokenExpiry - new Date();
+
+    if (timeDiff <= 60000) {
+      console.log("Access token is about to expire. Refreshing...");
+      refreshTokenHandler();
     }
   };
 
   useEffect(() => {
-    
-    const checkTokenExpiry = () => {
-      console.log("Checking access token expiration...");
-      const accessTokenExpiry = new Date(accessToken.exp * 1000);
-      console.log('access Token time' , accessTokenExpiry)
-      const timeDiff = accessTokenExpiry - new Date();
+    if (tokens.accessToken) {
+      checkTokenExpiry();
+      const intervalId = setInterval(checkTokenExpiry, 30000);
+      return () => clearInterval(intervalId);
+    }
+  }, [tokens.accessToken]);
 
-      if (timeDiff <= 60000) {
-        // Refresh token 1 minute before expiration
-        console.log("Access token is about to expire. Refreshing...");
-        refreshTokenHandler();
+  useEffect(() => {
+    const fetchUserDetails = async () => {
+      try {
+        const { data } = await axios.get('/api/v2/users/');
+        setUser(data.data);
+      } catch (error) {
+        console.error(error);
       }
     };
 
-    if (accessToken) {
-      checkTokenExpiry();
-      const intervalId = setInterval(checkTokenExpiry, 30000); // Check every 30 seconds
-      return () => clearInterval(intervalId);
-    }
-  }, [accessToken]);
+    fetchUserDetails();
+  }, [setUser]);
 
-  return isAuthenticated ? children : <Navigate to="/login" />;
+  if (!isAuthenticated) {
+    return <Navigate to="/login" />;
+  }
+
+  return (
+    <>
+      {isAuthenticated && <DashBoardNavbar user={user} userImage={user?.profile} />}
+      {children}
+    </>
+  );
 };
 
 export default PrivateRoute;

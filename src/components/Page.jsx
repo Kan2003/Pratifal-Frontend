@@ -26,13 +26,13 @@ const Page = () => {
     const userDetails = async() => {
         try {
           const response = await axios.get('/api/v2/users/')
-          console.log(response.data.data.profile)
+          // console.log(response.data.data.profile)
           if(response.status === 200){
             setUser(true)
             setProfile(response.data.data.profile)
           }
         } catch (error) {
-          console.log(error.status)
+          // console.log(error.status)
           if(error.status === 401){
             setUser(false)
           }
@@ -160,7 +160,7 @@ const Page = () => {
         </div>
 
         {/* fifth section */}
-        <div className="w-[200vw] flex">
+        <div className="w-[200vw] flex overflow-hidden">
           <div className="w-[100vw] h-[100vh] bg-yellow-300"></div>
           <div className="w-[100vw]  h-[100vh] bg-green-300"></div>
         </div>
