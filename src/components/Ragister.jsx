@@ -5,6 +5,8 @@ import RagisterLoginLayout from "./littleComponents/RagisterLoginLayout";
 import Input from "./littleComponents/Input";
 import cross from '../assets/cross-mark-svgrepo-com.svg'
 import check from '../assets/check-svgrepo-com.svg'
+import Error from "./littleComponents/Error";
+import Success from "./littleComponents/Success";
 const Register = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -117,18 +119,8 @@ const Register = () => {
 
   return (
     <div className="w-full h-screen bg-white flex items-center justify-center relative">
-      {error && (
-        <div className=" absolute transition-all duration-300 ease-in top-5 left-1/2 flex items-center gap-2 -translate-x-1/2 rounded-lg bg-[#00000013] py-2 px-6">
-          <img className="w-[20px] h-[20px]" src={cross} alt="" />
-          <p className="text-black text-center">{error}</p>
-        </div>
-      )}
-      {success && (
-       <div className=" absolute transition-all duration-300 ease-in top-5 left-1/2 flex items-center gap-2 -translate-x-1/2 rounded-lg bg-[#00000013] py-2 px-6">
-       <img className="w-[20px] h-[20px]" src={check} alt="" />
-       <p className="text-black text-center">{success}</p>
-     </div>
-      )}
+      {error && (<Error error={error}/>)}
+      {success && (<Success success={success}/>)}
       <RagisterLoginLayout />
       <div className="w-[50vw] h-full flex items-start flex-col pt-[15vw] font-headlandOne px-[8vw]">
         <h1>Logo</h1>

@@ -73,7 +73,7 @@ const DashBoardNavbar = memo(({ user, userImage }) => {
       {/* Right Part */}
       <div className="flex items-center gap-4 font-hanken-grotesk">
         {location.pathname === "/dashboard" && <IconButton text="create" />}
-        <div className="flex gap-3 border-[1px] stroke-[0.83] stroke-[#E8EFF] w-[14vw] items-center justify-between px-3  py-[7px] rounded-lg">
+        <div className="flex gap-3 border-[1px] stroke-[0.83] stroke-[#E8EFF]  items-center justify-between px-3  py-[7px] rounded-lg">
           <div className="flex gap-1 items-center">
             <Link
               to="/dashboard"

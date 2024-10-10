@@ -4,7 +4,7 @@ const Input = ({error , id , type , placeholder , value , handleChange , handleB
   return (
     <div className="mb-1">
     <input
-      className={`shadow mb-1 appearance-none border rounded w-full py-2 px-3 text-sm text-black focus:outline-none    ${
+      className={`shadow mb-1 appearance-none border rounded w-full py-2 px-3 text-sm text-black focus:outline-none focus:border-[#58B9ED]   ${
         !error && "hover:border-[#58B9ED]"
       }  ${!error && "hover:focus:border-[#58B9ED]"}   ${
         error && "border-red-500"
