@@ -1,4 +1,4 @@
-import React, { useState, memo } from "react";
+import React, { useState, memo, useEffect } from "react";
 import logo from "../assets/logo.png";
 import search from "../assets/Search.svg";
 import IconButton from "./littleComponents/IconButton";
@@ -7,9 +7,9 @@ import { Link, useLocation } from "react-router-dom";
 import { DownOutlined } from "@ant-design/icons";
 import { Dropdown } from "antd";
 
-const DashBoardNavbar = memo(({ user, userImage , handleLogout}) => {
+const DashBoardNavbar = memo(({ user, userImage , handleLogout , setSearch}) => {
   const location = useLocation();
-  console.log(location);
+  // console.log(location);
   const [drop, setDrop] = useState(false);
   const handleDropDown = () => {
     setDrop((prev) => !prev);
@@ -25,7 +25,7 @@ const DashBoardNavbar = memo(({ user, userImage , handleLogout}) => {
       key: "0",
     },
     {
-      label: <a href="https://www.aliyun.com">Change Password</a>,
+      label: <a href="">Change Password</a>,
       key: "2",
     },
     {
@@ -44,6 +44,13 @@ const DashBoardNavbar = memo(({ user, userImage , handleLogout}) => {
     },
   ];
 
+
+  const handleSearch = (e) => {
+    setSearch(e.target.value);
+  }
+
+  
+
   // Use a stable function reference for handleDropDown
 
   return (
@@ -60,6 +67,7 @@ const DashBoardNavbar = memo(({ user, userImage , handleLogout}) => {
           <input
             className="outline-none w-[80%]"
             placeholder="Search your reward"
+            onChange={handleSearch}
           />
           <img
             className="w-[15px] h-[15px] opacity-[50%]"

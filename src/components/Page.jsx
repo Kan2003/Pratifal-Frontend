@@ -26,7 +26,6 @@ const Page = () => {
     const userDetails = async() => {
         try {
           const response = await axios.get('/api/v2/users/')
-          // console.log(response.data.data.profile)
           if(response.status === 200){
             setUser(true)
             setProfile(response.data.data.profile)
