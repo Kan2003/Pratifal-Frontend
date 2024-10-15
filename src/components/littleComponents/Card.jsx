@@ -45,10 +45,16 @@ const Card = ({ reward, id, rewards, setRewards }) => {
   const toggleStarred = async () => {
     try {
       const response = await axios.patch(`/api/v2/reward//toggle-reward/${id}`);
-      console.log(response.data);
+      console.log(response.data.message);
+      
       if (response.status === 200) {
-        setisStarred(!isStarred);
+        const toggleReward = response.data.message;
         
+        const updatedRewards = rewards.map((r) => 
+          r.id === id ? { ...r, starred: toggleReward.starred } : r
+        )
+        setRewards(updatedRewards)
+        setisStarred(!isStarred);
       }
     } catch (error) {
       console.error(error);

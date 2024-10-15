@@ -1,8 +1,11 @@
 import React from 'react'
 import plus from '../../assets/Plus.svg'
-const IconButton = ({text , icon}) => {
+const IconButton = ({text , icon , openRewardForm }) => {
+
+  
   return (
     <button
+    onClick={openRewardForm}
     className={`bg-black py-2 px-4 rounded-3xl text-[13px] font-light flex items-center tracking-wider justify-center text-white font-headlandOne transition-all duration-500 gap-2 ease-in-out  hover:bg-[#58B9ED] hover:text-black `}
   >
     <span className='w-[11px] h-[10px] '>

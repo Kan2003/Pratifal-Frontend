@@ -3,9 +3,10 @@ import { UserContext } from "../App";
 
 import Card from "./littleComponents/Card";
 import axios from "axios";
+import CreateReward from "./CreateReward";
 
 const Home = () => {
-  const {search} = useContext(UserContext)
+  const {search , showCreateForm , setShowCreateForm} = useContext(UserContext)
   const [rewards , setRewards] = useState([]);
 
 
@@ -13,18 +14,16 @@ const Home = () => {
     const allRewards = async () => {
       try {
         const response = await axios.get("/api/v2/reward/");
-        const sortedRewards = response.data.message.sort((a, b) => {
-          // Sort by starred: true first, then starred: false
-          return b.starred - a.starred;
-        });
-        setRewards(sortedRewards);
+        
+        setRewards(response.data.message);
       } catch (error) {
         console.log(error);
       }
     };
     allRewards();
-  }, [setRewards]);
+  }, [setRewards , rewards]);
 
+  
   // search functionality 
 
   const filterRewards = rewards.filter((reward) => {
@@ -46,6 +45,7 @@ const Home = () => {
               ))
             }
           </div>
+          {showCreateForm && <CreateReward setShowCreateForm={setShowCreateForm} />}
         </div>
       </div>
     </>

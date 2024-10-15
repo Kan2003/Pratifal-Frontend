@@ -18,6 +18,7 @@ function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(localStorage.getItem('isAuthenticated') === 'true');
   const [user, setUser] = useState({});
   const [search, setSearch] = useState();
+  const [showCreateForm , setShowCreateForm] = useState(false)
 
   return (
     <Router>
@@ -29,7 +30,7 @@ function App() {
 
           <Route 
             element={
-              <UserContext.Provider value={{ user, setUser , search , setSearch }}>
+              <UserContext.Provider value={{ user, setUser , search , setSearch , showCreateForm , setShowCreateForm}}>
                 <PrivateRoute isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated}>
                   <Outlet />
                 </PrivateRoute>

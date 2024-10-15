@@ -5,7 +5,7 @@ import { UserContext } from "../App";
 import DashBoardNavbar from "./DashBoardNavbar";
 
 const PrivateRoute = ({ children, isAuthenticated, setIsAuthenticated }) => {
-  const { user, setUser , search , setSearch } = useContext(UserContext);
+  const { user, setUser , search , setSearch , showCreateForm , setShowCreateForm } = useContext(UserContext);
   const [tokens, setTokens] = useState({ accessToken: null, refreshToken: null });
   const navigate = useNavigate();
 
@@ -104,7 +104,7 @@ const PrivateRoute = ({ children, isAuthenticated, setIsAuthenticated }) => {
 
   return (
     <>
-      {isAuthenticated && <DashBoardNavbar handleLogout={handleLogout} user={user} userImage={user?.profile} setSearch={setSearch} />}
+      {isAuthenticated && <DashBoardNavbar handleLogout={handleLogout} user={user} userImage={user?.profile} setSearch={setSearch} setShowCreateForm={setShowCreateForm} />}
       {children}
     </>
   );

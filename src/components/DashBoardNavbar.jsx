@@ -7,7 +7,7 @@ import { Link, useLocation } from "react-router-dom";
 import { DownOutlined } from "@ant-design/icons";
 import { Dropdown } from "antd";
 
-const DashBoardNavbar = memo(({ user, userImage , handleLogout , setSearch}) => {
+const DashBoardNavbar = memo(({ user, userImage , handleLogout , setSearch , setShowCreateForm}) => {
   const location = useLocation();
   // console.log(location);
   const [drop, setDrop] = useState(false);
@@ -49,6 +49,14 @@ const DashBoardNavbar = memo(({ user, userImage , handleLogout , setSearch}) => 
     setSearch(e.target.value);
   }
 
+
+  // create reward  component
+
+  
+  const openRewardForm = () => {
+    // Add your code to open the reward form
+    setShowCreateForm(true);
+  }
   
 
   // Use a stable function reference for handleDropDown
@@ -79,7 +87,7 @@ const DashBoardNavbar = memo(({ user, userImage , handleLogout , setSearch}) => 
 
       {/* Right Part */}
       <div className="flex items-center gap-4 font-hanken-grotesk">
-        {location.pathname === "/dashboard" && <IconButton text="create" />}
+        {location.pathname === "/dashboard" && <IconButton text="create" openRewardForm={openRewardForm} />}
         <div className="flex gap-4 border-[1px] stroke-[0.83] stroke-[#E8EFF]  items-center justify-between px-3  py-[7px] rounded-lg">
           <div className="flex gap-1 items-center">
             <Link

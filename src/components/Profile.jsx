@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { UserContext } from "../App";
 import image from "../assets/Frame 322.png";
 import profileImage from "../assets/Group 1000005837.svg";
@@ -8,8 +8,13 @@ import Error from "./littleComponents/Error";
 import Success from "./littleComponents/Success";
 
 import EditProfile from "./littleComponents/EditProfile";
+
+import ImageUpload from "./littleComponents/ImageUpload";
 const Profile = () => {
-  const { user } = useContext(UserContext);
+
+
+
+  const { user , setUser} = useContext(UserContext);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
@@ -25,7 +30,20 @@ const Profile = () => {
     setTheme(true);
     setEditProfile(false)
   }
+
+
+  // image upload 
+
+  const [imageUpload , setImageUpload] = useState(false);
+
+  const showImageUploader = () => {
+    console.log('checkinggggggg')
+    setImageUpload(true);
+  };
+
   return (
+    <>
+    
     <div className="w-full  pt-[5vw] h-screen">
       <img className="w-full relative" src={image} alt="" />
       {error && <Error error={error} />}
@@ -72,7 +90,7 @@ const Profile = () => {
             </div>
           </div>
         </div>
-        <div className="w-[30%]">
+        <div onClick={showImageUploader}  className="w-[30%]">
           <IconButton text="Update profile Image" />
         </div>
       </div>
@@ -126,6 +144,8 @@ const Profile = () => {
 
       </div>
     </div>
+    {imageUpload && <ImageUpload setImageUpload={setImageUpload} user={user} setUser={setUser} /> }
+    </>
   );
 };
 
