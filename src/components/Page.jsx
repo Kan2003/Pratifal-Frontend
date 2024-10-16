@@ -27,27 +27,44 @@ const Page = () => {
   useEffect(() => {
     const userDetails = async () => {
       try {
-        const response = await axios.get("/api/v2/users/");
+        const response = await axios.get("/api/v2/users/", { withCredentials: true });
+        
         if (response.status === 200) {
           setUser(true);
           setProfile(response.data.data.profile);
         }
       } catch (error) {
-        // console.log(error.status)
-        if (error.status === 401) {
+        // Handle 401 Unauthorized errors (likely due to expired token)
+        if (error.response && error.response.status === 401) {
           try {
-            const response = await axios.post(
-              "/api/v2/users/refresh-accesstoken"
+            // Refresh the access token using refresh token
+            const refreshResponse = await axios.post(
+              "/api/v2/users/refresh-accesstoken",
+              {}, // No need to pass credentials manually, they are in the cookie
+              { withCredentials: true } // Ensure refreshToken is sent with the request
             );
-            console.log(response.data);
-            setUser(true);
-          } catch (error) {
-            console.log(error);
+            
+            console.log(refreshResponse.data);
+  
+            // If refresh is successful, retry fetching user details
+            if (refreshResponse.status === 200) {
+              const newResponse = await axios.get("/api/v2/users/", { withCredentials: true });
+              
+              if (newResponse.status === 200) {
+                setUser(true);
+                setProfile(newResponse.data.data.profile);
+              }
+            }
+          } catch (refreshError) {
+            console.log(refreshError);
             setUser(false);
           }
+        } else {
+          console.log(error);
         }
       }
     };
+  
     userDetails();
   }, []);
   return (
@@ -167,11 +184,9 @@ const Page = () => {
             />
           </div>
         </div>
-
         <div className="my-[8vw] w-full">
           <HorizontalScroll />
         </div>
-
         <div className="w-full h-screen  "></div>
       </div>
     </div>

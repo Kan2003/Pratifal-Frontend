@@ -1,19 +1,29 @@
-import React, { useContext, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Input from "./littleComponents/Input";
 import cross from "../assets/cross.svg";
 import axios from "axios";
 import Error from "./littleComponents/Error";
 import Success from "./littleComponents/Success";
 import TextArea from "./littleComponents/TextArea";
-
-const CreateReward = ({ setShowCreateForm }) => {
-  const [title, setTitle] = useState("");
+const EditReward = ({ reward, setIsEdit, totalReward, setTotalReward }) => {
+  const [title, setTitle] = useState(reward.title);
   const [showTitleError, setShowTitleError] = useState(false);
-  const [description, setDescription] = useState("");
+
+  const [description, setDescription] = useState(reward.description);
   const [showDescriptionError, setShowDescriptionError] = useState(false);
-  const [coupon, setCoupon] = useState("");
+
+  const [coupon, setCoupon] = useState(reward.couponCode);
   const [showCouponError, setShowCouponError] = useState(false);
-  const [expiryDate, setExpiryDate] = useState("");
+
+  const formatDate = (date) => {
+    const d = new Date(date);
+    const day = String(d.getDate()).padStart(2, "0");
+    const month = String(d.getMonth() + 1).padStart(2, "0"); // Months are zero-based
+    const year = d.getFullYear();
+    return `${year}-${month}-${day}`;
+  };
+
+  const [expiryDate, setExpiryDate] = useState(formatDate(reward.expiryDate));
   const [showExpiryDateError, setShowExpiryDateError] = useState(false);
 
   const [error, setError] = useState("");
@@ -58,43 +68,44 @@ const CreateReward = ({ setShowCreateForm }) => {
       }
     } else if (e.target.id === "expiryDate") {
       const value = e.target.value;
-      console.log(value)
       setExpiryDate(value);
       const selectedDate = new Date(value).setHours(0, 0, 0, 0);
       if (value.trim() !== "" && selectedDate >= currentDate) {
         setShowExpiryDateError(false);
-      }
-      else {
-        console.log('expiry')
+      } else {
         setShowExpiryDateError(true);
       }
     }
   };
 
-  //   create a reward
+  //   Edit a reward
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("/api/v2/reward/create-reward", {
-        title,
-        description,
-        couponCode: coupon,
-        expiryDate: new Date(expiryDate),
-      });
-      console.log(response);
-      if (response.status === 201) {
-        setSuccess("Reward created successfully");
+      const response = await axios.patch(
+        `/api/v2/reward/update-reward/${reward._id}`,
+        {
+          title,
+          description,
+          couponCode: coupon,
+          expiryDate: new Date(expiryDate),
+        }
+      );
+      console.log(response.data.data);
+      if (response.status === 200) {
+        setSuccess("Reward updated successfully");
+        setTotalReward(
+          totalReward.map((r) =>
+            r._id === reward._id ? response.data.data : r
+          )
+        );
       }
-      setShowCreateForm(false);
+      setIsEdit(false);
     } catch (error) {
-      // const status = error.response.status
+      const status = error.response.status;
       console.log(status);
       console.log(error);
-      if (status === 409) {
-        setError("coupon code already Exists!");
-      } else if (status === 407) {
-        setError("expiry date exceeded");
-      }
+
       setTitle("");
       setDescription("");
       setCoupon("");
@@ -113,9 +124,9 @@ const CreateReward = ({ setShowCreateForm }) => {
       <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-[20%] backdrop-blur-sm">
         <div className="bg-white rounded-lg shadow-lg px-6 py-3 w-[30vw]">
           <div className="flex items-center justify-between">
-            <h1 className=" text-[20px] font-Harmattan">Create Reward</h1>
+            <h1 className=" text-[20px] font-Harmattan">Edit Reward</h1>
             <img
-              onClick={() => setShowCreateForm(false)}
+              onClick={() => setIsEdit(false)}
               className="w-[45px] h-[45px] cursor-pointer"
               src={cross}
               alt=""
@@ -203,7 +214,7 @@ const CreateReward = ({ setShowCreateForm }) => {
               className="w-full text-white text-[15px] tracking-wide py-2 rounded-lg bg-[#58B9ED] font-headlandOne mt-4"
               type="submit"
             >
-              Create
+              Update
             </button>
           </form>
         </div>
@@ -212,4 +223,4 @@ const CreateReward = ({ setShowCreateForm }) => {
   );
 };
 
-export default CreateReward;
+export default EditReward;

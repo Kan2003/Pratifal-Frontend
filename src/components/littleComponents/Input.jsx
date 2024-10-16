@@ -2,9 +2,9 @@ import React from 'react'
 
 const Input = ({error , id , type , placeholder , value , handleChange , handleBlur , text}) => {
   return (
-    <div className="mb-1">
+    <div className="">
     <input
-      className={`shadow mb-1 appearance-none border rounded w-full py-2 px-3 text-sm text-black focus:outline-none focus:border-[#58B9ED]   ${
+      className={`shadow mb-[2px] appearance-none border rounded w-full py-2 px-3 text-sm text-black focus:outline-none focus:border-[#58B9ED]   ${
         !error && "hover:border-[#58B9ED]"
       }  ${!error && "hover:focus:border-[#58B9ED]"}   ${
         error && "border-red-500"

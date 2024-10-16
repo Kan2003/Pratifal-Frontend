@@ -17,7 +17,7 @@ const Profile = lazy(() => import("./components/Profile.jsx"));
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(localStorage.getItem('isAuthenticated') === 'true');
   const [user, setUser] = useState({});
-  const [search, setSearch] = useState();
+  const [search, setSearch] = useState('');
   const [showCreateForm , setShowCreateForm] = useState(false)
 
   return (

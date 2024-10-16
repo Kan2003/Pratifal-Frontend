@@ -23,11 +23,11 @@ const Profile = () => {
 
 
   const handleProfile = () => {
-    setEditProfile(true);
+    setEditProfile(!editProfile);
     setTheme(false)
   }
   const handleTheme = () => {
-    setTheme(true);
+    setTheme(!theme);
     setEditProfile(false)
   }
 
@@ -54,7 +54,7 @@ const Profile = () => {
           <div className="w-[120px] h-[120px]  border-[6px] border-opacity-[50%] overflow-hidden rounded-full border-[#58B9ED]">
             {user?.profile?.length > 4 ? (
               <img
-                className="w-full h-full object-cover"
+                className="w-full h-full scale-110 brightness-125 object-cover"
                 src={user?.profile}
                 alt="User"
               />
