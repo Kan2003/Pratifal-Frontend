@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Navbar from "./Navbar";
 import Lenis from "lenis";
 import SignupButton from "./littleComponents/SignupButton";
 import speaker from "../assets/66f2e8b62f0f951eb6f22fb9_Frame.png";
+import background from "../assets/background.png";
 import video from "../assets/Untitled Video.mp4";
 import ColorButton from "./littleComponents/ColorButton";
 import axios from "axios";
+import HorizontalScroll from "./littleComponents/HorizontalScroll";
 const Page = () => {
   useEffect(() => {
     const lenis = new Lenis();
@@ -20,30 +22,40 @@ const Page = () => {
     requestAnimationFrame(raf);
   });
 
-  const [user , setUser] = useState(false)
-  const [profile, setProfile] = useState(null)
+  const [user, setUser] = useState(false);
+  const [profile, setProfile] = useState(null);
   useEffect(() => {
-    const userDetails = async() => {
-        try {
-          const response = await axios.get('/api/v2/users/')
-          if(response.status === 200){
-            setUser(true)
-            setProfile(response.data.data.profile)
-          }
-        } catch (error) {
-          // console.log(error.status)
-          if(error.status === 401){
-            setUser(false)
+    const userDetails = async () => {
+      try {
+        const response = await axios.get("/api/v2/users/");
+        if (response.status === 200) {
+          setUser(true);
+          setProfile(response.data.data.profile);
+        }
+      } catch (error) {
+        // console.log(error.status)
+        if (error.status === 401) {
+          try {
+            const response = await axios.post(
+              "/api/v2/users/refresh-accesstoken"
+            );
+            console.log(response.data);
+            setUser(true);
+          } catch (error) {
+            console.log(error);
+            setUser(false);
           }
         }
-    }
+      }
+    };
     userDetails();
-  },[])
-
+  }, []);
   return (
-    <div className="w-full  bg-slate-100 ">
+    // style={{ backgroundImage: `url(${background})` }} background image style
+    <div className="w-full bg-no-repeat " >
+      
       <Navbar user={user} profile={profile} />
-      <div className="w-full   pt-[7vw] ">
+      <div className="w-full relative pt-[7vw] ">
         <div className="flex px-[2vw] items-center justify-center flex-col gap-5 py-14">
           <h1 className=" text-[40px] font-headlandOne ">
             Store Your All Rewards in A single & Secured Place
@@ -117,9 +129,7 @@ const Page = () => {
           </div>
           <div className="w-[40vw] bg-zinc-200 rounded-2xl h-[555px]"></div>
         </div>
-
         {/* forth section */}
-
         <div className="my-[4vw] px-[2vw] w-full flex flex-col items-center gap-6">
           <h1 className="text-center text-[59px] tracking-normal font-headlandOne">
             "Don't let your{" "}
@@ -158,11 +168,11 @@ const Page = () => {
           </div>
         </div>
 
-        {/* fifth section */}
-        <div className="w-[200vw] flex overflow-hidden">
-          <div className="w-[100vw] h-[100vh] bg-yellow-300"></div>
-          <div className="w-[100vw]  h-[100vh] bg-green-300"></div>
+        <div className="my-[8vw] w-full">
+          <HorizontalScroll />
         </div>
+
+        <div className="w-full h-screen  "></div>
       </div>
     </div>
   );

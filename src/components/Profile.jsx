@@ -74,19 +74,19 @@ const Profile = () => {
               <h1 className="font-hanken-grotesk text-[15px] text-[#58B9ED] font-semibold">
                 Fullname :{" "}
               </h1>
-              <h1 className="font-headlandOne text-[15px]">{user.fullname}</h1>
+              <h1 className="font-headlandOne text-[15px]">{user?.fullname}</h1>
             </div>
             <div className="flex items-center  gap-2">
               <h1 className="font-hanken-grotesk text-[15px] text-[#58B9ED] font-semibold">
                 Username :{" "}
               </h1>
-              <h1 className="font-headlandOne text-[15px]">{user.username}</h1>
+              <h1 className="font-headlandOne text-[15px]">{user?.username}</h1>
             </div>
             <div className="flex items-center  gap-2">
               <h1 className="font-hanken-grotesk text-[15px] text-[#58B9ED] font-semibold">
                 Email :{" "}
               </h1>
-              <h1 className="font-headlandOne text-[15px]">{user.email}</h1>
+              <h1 className="font-headlandOne text-[15px]">{user?.email}</h1>
             </div>
           </div>
         </div>

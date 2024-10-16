@@ -12,6 +12,7 @@ export default {
         "headlandOne": ['Headland One', 'serif'],
         'hanken-grotesk': ['Hanken Grotesk', 'sans-serif'],
         'Harmattan': ['Harmattan', 'sans-serif'],
+        'Economica': ["Economica", 'sans-serif'],
       },
       fontWeight: {
         'extra-light': 100,

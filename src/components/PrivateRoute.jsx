@@ -32,7 +32,7 @@ const PrivateRoute = ({ children, isAuthenticated, setIsAuthenticated }) => {
 
     try {
       console.log("Refreshing access token...");
-      const { data } = await axios.post("/api/v2/users/refresh-token", {
+      const { data } = await axios.post("/api/v2/users/refresh-accesstoken", {
         refreshToken: tokens.refreshToken,
       });
 
@@ -76,6 +76,7 @@ const PrivateRoute = ({ children, isAuthenticated, setIsAuthenticated }) => {
         const { data } = await axios.get('/api/v2/users/');
         setUser(data.data);
       } catch (error) {
+        console.log('first error', error)
         console.error(error);
       }
     };

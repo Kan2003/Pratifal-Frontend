@@ -12,6 +12,7 @@
   "dependencies": {
     "antd": "^5.21.3",
     "axios": "^1.7.7",
+    "gsap": "^3.12.5",
     "lenis": "^1.1.13",
     "locomotive-scroll": "^4.1.4",
     "react": "^18.3.1",
