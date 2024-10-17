@@ -73,7 +73,7 @@ const Page = () => {
   }, []);
   return (
     // style={{ backgroundImage: `url(${background})` }} background image style
-    <div className="w-full bg-no-repeat 2xl:bg-red-400 xl:bg-green-300 lg:bg-yellow-300 md:bg-blue-300 sm:bg-purple-300 xs:bg-orange-300">
+    <div className="w-full bg-no-repeat">
       <Navbar user={user} profile={profile} />
       <div className="w-full relative pt-[7vw] ">
         <div className="flex px-[2vw] items-center justify-center flex-col gap-5 py-14">
