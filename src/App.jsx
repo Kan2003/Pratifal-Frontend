@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Outlet } from "react-router-dom";
 import { lazy, Suspense, useEffect, useState } from "react";
 import { createContext } from 'react';
+import ChangePassword from "./components/ChangePassword.jsx";
 
 
 // Create UserContext
@@ -17,7 +18,7 @@ const Profile = lazy(() => import("./components/Profile.jsx"));
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(localStorage.getItem('isAuthenticated') === 'true');
   const [user, setUser] = useState({});
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
   const [showCreateForm , setShowCreateForm] = useState(false)
 
   return (
@@ -38,7 +39,9 @@ function App() {
             }
           >
             <Route path="/dashboard" element={<Home />} />
-            <Route path="/profile" element={<Profile user={user} />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/updatePassword" element={<ChangePassword/>} />
+
           </Route>
         </Routes>
       </Suspense>

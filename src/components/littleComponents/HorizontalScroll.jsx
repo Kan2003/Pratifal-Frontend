@@ -133,13 +133,13 @@ const HorizontalScroll = () => {
         }}
       >
         <div className="w-full text-center flex items-center justify-center">
-          <h2 className="w-[50%] font-Harmattan font-bold text-[80px] leading-[90%]">
+          <h2 className="w-[52%] font-Harmattan font-bold text-[80px] leading-[90%]">
             Now freely you can add your rewards{" "}
             <span>
               <img className="inline-block w-[70px]" src={coupon} alt="" />
             </span>{" "}
             <br />
-            and access in it anytime
+            and access in it anytime.
           </h2>
         </div>
       </div>

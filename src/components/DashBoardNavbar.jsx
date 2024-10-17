@@ -6,6 +6,7 @@ import profileImage from "../assets/Group 1000005837.svg";
 import { Link, useLocation } from "react-router-dom";
 import { DownOutlined } from "@ant-design/icons";
 import { Dropdown } from "antd";
+import logout from '../assets/logout-svgrepo-com.svg'
 
 const DashBoardNavbar = memo(
   ({ user, userImage, handleLogout, setSearch, setShowCreateForm }) => {
@@ -26,7 +27,11 @@ const DashBoardNavbar = memo(
         key: "0",
       },
       {
-        label: <a href="">Change Password</a>,
+        label: (
+          <Link onClick={handleDropDown} to="/updatePassword">
+            Update Password
+          </Link>
+        ),
         key: "1",
       },
       {
@@ -37,7 +42,10 @@ const DashBoardNavbar = memo(
         type: "divider",
       },
       {
-        label: <h1 onClick={handleLogout}>LogOut</h1>,
+        label: <div className="flex items-center justify-center gap-2" onClick={handleLogout}>
+          <h1 >LogOut</h1>
+          <img className="w-[25px] scale-110  h-[25px]  leading-none" src={logout} alt="" />
+        </div>,
 
         key: "3",
       },

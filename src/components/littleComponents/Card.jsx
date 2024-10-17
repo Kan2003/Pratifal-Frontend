@@ -32,9 +32,7 @@ const Card = ({ reward, id, totalReward, setTotalReward }) => {
       const response = await axios.delete(`/api/v2/reward/delete-reward/${id}`);
       console.log(response.data);
       if (response.status === 200) {
-        // Update the rewards array in the parent component
-        setTotalReward(totalReward.filter((r) => r.id !== id));
-        setisStarred(!isStarred)
+        setTotalReward(totalReward.filter((r) => r._id !== id));
         console.log("reward deleteed successfully");
       }
     } catch (error) {
@@ -72,7 +70,7 @@ const Card = ({ reward, id, totalReward, setTotalReward }) => {
 
   return (
     <>
-      <div className="w-[300px] h-[190px] rounded-2xl bg-[#d9d9d971] flex flex-col justify-between px-[10px] py-[8px] border-[1px] bg-bottom bg-cover border-zinc-500 shadow-lg  object-cover ">
+      <div className="w-[300px] h-[190px] rounded-2xl bg-[#d9d9d971] flex flex-col justify-between px-[10px] py-[8px] border-[1px] bg-bottom bg-cover border-zinc-500 shadow-md  object-cover ">
         <div className="w-full flex items-center justify-end gap-2">
           <img
             onClick={handleEditCard}

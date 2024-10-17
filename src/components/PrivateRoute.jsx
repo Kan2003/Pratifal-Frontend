@@ -5,9 +5,10 @@ import { UserContext } from "../App";
 import DashBoardNavbar from "./DashBoardNavbar";
 
 const PrivateRoute = ({ children, isAuthenticated, setIsAuthenticated }) => {
-  const { user, setUser , search , setSearch , showCreateForm , setShowCreateForm } = useContext(UserContext);
+  const { user , setUser , search , setSearch , showCreateForm , setShowCreateForm } = useContext(UserContext);
   const [tokens, setTokens] = useState({ accessToken: null, refreshToken: null });
   const navigate = useNavigate();
+
 
   useEffect(() => {
     const checkAuth = async () => {

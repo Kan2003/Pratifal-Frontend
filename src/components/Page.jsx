@@ -184,6 +184,11 @@ const Page = () => {
             />
           </div>
         </div>
+
+        {/* <div className="w-full ">
+          <h1 className="text-center font-Harmattan font-bold text-[30px]">Add your reward & coupons in just two steps and forget about where it on...</h1>
+        </div> */}
+
         <div className="my-[8vw] w-full">
           <HorizontalScroll />
         </div>

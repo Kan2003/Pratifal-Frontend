@@ -6,7 +6,7 @@ import Error from "./littleComponents/Error";
 import Success from "./littleComponents/Success";
 import TextArea from "./littleComponents/TextArea";
 
-const CreateReward = ({ setShowCreateForm }) => {
+const CreateReward = ({ setShowCreateForm  , setTotalReward, totalReward}) => {
   const [title, setTitle] = useState("");
   const [showTitleError, setShowTitleError] = useState(false);
   const [description, setDescription] = useState("");
@@ -81,8 +81,11 @@ const CreateReward = ({ setShowCreateForm }) => {
         couponCode: coupon,
         expiryDate: new Date(expiryDate),
       });
-      console.log(response);
+      console.log(response.data.message)
+      const newReward = response.data.message;
+      console.log(newReward)
       if (response.status === 201) {
+        setTotalReward((prev) => [...prev , newReward])
         setSuccess("Reward created successfully");
       }
       setShowCreateForm(false);

@@ -1,5 +1,5 @@
 import React, { useContext, useRef, useState } from "react";
-import { UserContext } from "../App";
+
 import image from "../assets/Frame 322.png";
 import profileImage from "../assets/Group 1000005837.svg";
 
@@ -10,11 +10,14 @@ import Success from "./littleComponents/Success";
 import EditProfile from "./littleComponents/EditProfile";
 
 import ImageUpload from "./littleComponents/ImageUpload";
+import { UserContext } from "../App";
 const Profile = () => {
 
+  const { user , setUser } = useContext(UserContext);
 
-
-  const { user , setUser} = useContext(UserContext);
+  if(!user) {
+    location.reload();
+  }
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 

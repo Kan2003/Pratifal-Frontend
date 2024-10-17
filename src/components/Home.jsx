@@ -6,8 +6,12 @@ import axios from "axios";
 import CreateReward from "./CreateReward";
 import coupon from "../assets/coupon.svg";
 const Home = () => {
-  const { search='', showCreateForm, setShowCreateForm } = useContext(UserContext);
+  const { search = "", showCreateForm, setShowCreateForm } = useContext(UserContext);
+
+  
   const [totalReward, setTotalReward] = useState([]);
+
+  // console.log(search)
 
   useEffect(() => {
     const allRewards = async () => {
@@ -20,7 +24,7 @@ const Home = () => {
       }
     };
     allRewards();
-  }, [setTotalReward, totalReward]);
+  }, []);
 
   // search functionality
 
@@ -42,7 +46,7 @@ const Home = () => {
 
   return (
     <>
-      <div className="w-full pt-[10vw] pb-[5vw] px-[5vw] relative">
+      <div className="w-full pt-[10vw] pb-[5vw] px-[5vw] relative ">
         <div className="w-full ">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
             {filterRewards.length > 0 ? (
@@ -78,7 +82,7 @@ const Home = () => {
             )}
           </div>
           {showCreateForm && (
-            <CreateReward setShowCreateForm={setShowCreateForm} />
+            <CreateReward setShowCreateForm={setShowCreateForm} totalReward={totalReward} setTotalReward={setTotalReward} />
           )}
         </div>
       </div>
