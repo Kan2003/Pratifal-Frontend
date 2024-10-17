@@ -32,7 +32,7 @@ const ChangePassword = () => {
   const handleBlur = (e) => {
     if (e.target.id === "old") {
       if (oldPassword.trim() === "") {
-        setOldText("Old password is required.");
+        setOldText("current password is required.");
         setShowOldPasswordError(true);
         
       } else if (e.target.value.length < 8) {
@@ -160,13 +160,13 @@ const ChangePassword = () => {
               htmlFor="title"
               className="block text-[16px] leading-none font-medium font-Harmattan text-gray-700"
             >
-              Old Password
+              Current Password
             </label>
             <Input
               error={showOldPasswordError}
               id="old"
               type="password"
-              placeholder="Enter your old Password"
+              placeholder="Enter your Password"
               value={oldPassword}
               handleChange={handleChange}
               handleBlur={handleBlur}
