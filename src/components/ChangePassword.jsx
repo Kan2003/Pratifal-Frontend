@@ -18,6 +18,12 @@ const ChangePassword = () => {
   const [showConfirmPasswordError, setShowConfirmPasswordError] =
     useState(false);
 
+
+  // password Icon show
+  const [oldPasswordIcon, setOldPasswordIcon] = useState(false);
+  const [newPasswordIcon, setNewPasswordIcon] = useState(false);
+  const [confirmPasswordIcon, setConfirmPasswordIcon] = useState(false);
+
   // const buttonError =
   // setShowOldPasswordError &&
   // setShowNewPasswordError &&
@@ -28,6 +34,7 @@ const ChangePassword = () => {
       if (oldPassword.trim() === "") {
         setOldText("Old password is required.");
         setShowOldPasswordError(true);
+        
       } else if (e.target.value.length < 8) {
         setOldText("Password should be at least 8 characters long.");
         setShowOldPasswordError(true);
@@ -55,20 +62,32 @@ const ChangePassword = () => {
     if (e.target.id === "old") {
       const value = e.target.value;
       setOldPassword(value);
+      
       if (value.trim() !== "") {
         setShowOldPasswordError(false);
+        setOldPasswordIcon(true);
+      }else{
+        setOldPasswordIcon(false);
       }
+    
     } else if (e.target.id === "new") {
       const value = e.target.value;
       setNewPassword(value);
       if (value.trim() !== "") {
         setShowNewPasswordError(false);
+        setNewPasswordIcon(true);
+      }else{
+        setNewPasswordIcon(false);
       }
     } else if (e.target.id === "confirm") {
       const value = e.target.value;
       setConfirmPassword(value);
       if (value.trim() !== "") {
         setShowConfirmPasswordError(false);
+        setConfirmPasswordIcon(true);
+      }
+      else{
+        setConfirmPasswordIcon(false);
       }
     }
   };
@@ -118,6 +137,7 @@ const ChangePassword = () => {
       }, 3000);
     }
   };
+
   return (
     <div className="w-full h-screen  flex">
       {error && <Error error={error} />}
@@ -151,6 +171,9 @@ const ChangePassword = () => {
               handleChange={handleChange}
               handleBlur={handleBlur}
               text={oldText}
+              passwordCheck={true}
+              passwordIcon={oldPasswordIcon}
+              setShowOldPasswordError={setShowOldPasswordError}
             />
           </div>
           <div className="w-full">
@@ -169,6 +192,8 @@ const ChangePassword = () => {
               handleChange={handleChange}
               handleBlur={handleBlur}
               text={newText}
+              passwordCheck={true}
+              passwordIcon={newPasswordIcon}
             />
           </div>
           <div className="w-full">
@@ -187,6 +212,8 @@ const ChangePassword = () => {
               handleChange={handleChange}
               handleBlur={handleBlur}
               text={confirmText}
+              passwordCheck={true}
+              passwordIcon={confirmPasswordIcon}
             />
           </div>
           <button

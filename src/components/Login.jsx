@@ -12,31 +12,38 @@ const Login = ({ setIsAuthenticated }) => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
+  // custyomize error message
   const [showEmailError, setShowEmailError] = useState(false);
   const [showPasswordError, setShowPasswordError] = useState(false);
+
+  const [emailText, setEmailText] = useState("Email is required.");
+  const [passwordText, setPasswordText] = useState("Password is required.");
+
+  // password Icon
+  const [passwordIcon, setPasswordIcon] = useState(false);
 
   const buttonError =
     !showEmailError && !showPasswordError && password.length > 8 && email;
 
   const handleBlur = (e) => {
     if (e.target.id === "email") {
-      setShowEmailError(email.trim() === "" || !/^\S+@\S+\.\S+$/.test(email));
+      if (email.trim() === "") {
+        setEmailText("Email is Required");
+        setShowEmailError(true);
+      } else if (!/^\S+@\S+\.\S+$/.test(email)) {
+        setEmailText("enter a vaild Email.");
+        setShowEmailError(true);
+      }
     } else if (e.target.id === "password") {
-      setShowPasswordError(password.trim() === "" || password.length < 8);
+      if (password.trim() === "") {
+        setPasswordText("Password is required.");
+        setShowPasswordError(true);
+      } else if (e.target.value.length < 8) {
+        setPasswordText("Password should be at least 8 characters long.");
+        setShowPasswordError(true);
+      }
     }
   };
-
-  
-
-  const navigate = useNavigate();
-
-  // const isLoggedIn = Boolean(localStorage.getItem("isAuthenticated")); // Replace with your authentication logic
-  // console.log(isLoggedIn)
-  // useEffect(() => {
-  //   if (isLoggedIn) {
-  //     navigate('/dashboard');
-  //   }
-  // }, [isLoggedIn, navigate]);
 
   const handleChange = (e) => {
     if (e.target.id === "email") {
@@ -50,9 +57,22 @@ const Login = ({ setIsAuthenticated }) => {
       setPassword(value);
       if (value.trim() !== "") {
         setShowPasswordError(false);
+        setPasswordIcon(true);
+      } else {
+        setPasswordIcon(false);
       }
     }
   };
+
+  const navigate = useNavigate();
+
+  // const isLoggedIn = Boolean(localStorage.getItem("isAuthenticated")); // Replace with your authentication logic
+  // console.log(isLoggedIn)
+  // useEffect(() => {
+  //   if (isLoggedIn) {
+  //     navigate('/dashboard');
+  //   }
+  // }, [isLoggedIn, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -77,8 +97,7 @@ const Login = ({ setIsAuthenticated }) => {
         setError("Internal Server Error, Please try again later.");
       } else if (status === 401) {
         setError("Invalid credentials");
-      }
-       else if (status === 404) {
+      } else if (status === 404) {
         setError("User not found");
       }
       setEmail("");
@@ -91,33 +110,51 @@ const Login = ({ setIsAuthenticated }) => {
   };
   return (
     <div className="w-full h-screen flex items-center justify-center relative">
-      {error && <Error error={error}/>}
-      {success && <Success success={success}/>}
+      {error && <Error error={error} />}
+      {success && <Success success={success} />}
 
       <RagisterLoginLayout />
       <div className="w-[50vw] h-full flex items-start flex-col pt-[15vw] font-headlandOne px-[8vw]">
         <h1>Logo</h1>
         <form className="w-full h-full" onSubmit={handleSubmit}>
-          <Input
-            error={showEmailError}
-            id="email"
-            type="email"
-            placeholder="Email"
-            value={email}
-            handleChange={handleChange}
-            handleBlur={handleBlur}
-            text="please provide valid email Address"
-          />
-          <Input
-            error={showPasswordError}
-            id="password"
-            type="password"
-            placeholder="Password"
-            value={password}
-            handleChange={handleChange}
-            handleBlur={handleBlur}
-            text="Password should contain more than 8 characters"
-          />
+          <div className="w-full">
+            <label
+              htmlFor="title"
+              className="block text-[16px] leading-none font-medium font-Harmattan text-gray-700"
+            >
+              Email
+            </label>
+            <Input
+              error={showEmailError}
+              id="email"
+              type="email"
+              placeholder="Email"
+              value={email}
+              handleChange={handleChange}
+              handleBlur={handleBlur}
+              text={emailText}
+            />
+          </div>
+          <div className="w-full">
+            <label
+              htmlFor="title"
+              className="block text-[16px] leading-none font-medium font-Harmattan text-gray-700"
+            >
+              Password
+            </label>
+            <Input
+              error={showPasswordError}
+              id="password"
+              type="password"
+              placeholder="Password"
+              value={password}
+              handleChange={handleChange}
+              handleBlur={handleBlur}
+              text={passwordText}
+              passwordCheck={true}
+              passwordIcon={passwordIcon}
+            />
+          </div>
 
           <button
             className={`w-full text-center  text-[14px] py-2 transition-all duration-300 ease-in-out rounded-lg ${
