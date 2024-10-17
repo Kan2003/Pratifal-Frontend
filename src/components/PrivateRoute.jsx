@@ -5,10 +5,19 @@ import { UserContext } from "../App";
 import DashBoardNavbar from "./DashBoardNavbar";
 
 const PrivateRoute = ({ children, isAuthenticated, setIsAuthenticated }) => {
-  const { user , setUser , search , setSearch , showCreateForm , setShowCreateForm } = useContext(UserContext);
-  const [tokens, setTokens] = useState({ accessToken: null, refreshToken: null });
+  const {
+    user,
+    setUser,
+    search,
+    setSearch,
+    showCreateForm,
+    setShowCreateForm,
+  } = useContext(UserContext);
+  const [tokens, setTokens] = useState({
+    accessToken: null,
+    refreshToken: null,
+  });
   const navigate = useNavigate();
-
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -74,10 +83,10 @@ const PrivateRoute = ({ children, isAuthenticated, setIsAuthenticated }) => {
   useEffect(() => {
     const fetchUserDetails = async () => {
       try {
-        const { data } = await axios.get('/api/v2/users/');
+        const { data } = await axios.get("/api/v2/users/");
         setUser(data.data);
       } catch (error) {
-        console.log('first error', error)
+        console.log("first error", error);
         console.error(error);
       }
     };
@@ -91,13 +100,12 @@ const PrivateRoute = ({ children, isAuthenticated, setIsAuthenticated }) => {
 
   const handleLogout = async () => {
     try {
-      const response = await axios.post('/api/v2/users/logout')
+      const response = await axios.post("/api/v2/users/logout");
       // console.log(response)
-      if(response)
-      {
+      if (response) {
         localStorage.removeItem("isAuthenticated");
-      setIsAuthenticated(false);
-      navigate("/");
+        setIsAuthenticated(false);
+        navigate("/");
       }
     } catch (error) {
       console.error("Error logging out:", error);
@@ -106,7 +114,15 @@ const PrivateRoute = ({ children, isAuthenticated, setIsAuthenticated }) => {
 
   return (
     <>
-      {isAuthenticated && <DashBoardNavbar handleLogout={handleLogout} user={user} userImage={user?.profile} setSearch={setSearch} setShowCreateForm={setShowCreateForm} />}
+      {isAuthenticated && (
+        <DashBoardNavbar
+          handleLogout={handleLogout}
+          user={user}
+          userImage={user?.profile}
+          setSearch={setSearch}
+          setShowCreateForm={setShowCreateForm}
+        />
+      )}
       {children}
     </>
   );

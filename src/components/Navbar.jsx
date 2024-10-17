@@ -8,7 +8,7 @@ import logout from "../assets/logout-svgrepo-com.svg";
 
 const Navbar = ({ user, profile }) => {
   return (
-    <div className="w-full fixed shadow-lg bg-slate-50 flex items-center z-[100] justify-between h-[60px] px-4 ">
+    <div className="w-full fixed shadow-lg bg-slate-50 flex items-center z-[100] justify-between  h-[60px] px-2 ">
       <div>
         <div className="flex gap-1 items-center justify-center">
           <img className="w-[50px] h-[50px]" src={logo} alt="" />
