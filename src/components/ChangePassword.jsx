@@ -139,12 +139,12 @@ const ChangePassword = () => {
   };
 
   return (
-    <div className="w-full h-screen  flex">
+    <div className="w-full h-screen xs:pt-[20vw] sm:pt-0 sm:flex-col md:flex-row   flex">
       {error && <Error error={error} />}
       {success && <Success success={success} />}
-      <div className="w-[70%] h-full bg-[#002fec96] flex items-center justify-center">
+      <div className="w-[70%] xs:hidden sm:flex sm:w-full md:w-[70%]  md h-full bg-[#002fec96] flex items-center justify-center">
         <div className="w-full">
-          <h2 className="text-center font-Harmattan font-bold text-[80px] leading-[90%]">
+          <h2 className="text-center font-Harmattan font-bold sm:text-[60px] lg:text-[80px]  text-[80px] leading-[90%]">
             Update Your Password
           </h2>
           <h3 className="text-center font-Harmattan font-semibold tracking-wide">
@@ -153,7 +153,7 @@ const ChangePassword = () => {
           </h3>
         </div>
       </div>
-      <div className="h-full w-[30%] px-[5vw] flex flex-col py-[10vw] items-center">
+      <div className="h-full w-[30%] xs:w-full md:w-[50%] md:py-[20vw] lg:py-[10vw] px-[5vw] flex flex-col py-[10vw] items-center xs:justify-center ">
         <form className="w-full" onSubmit={handleSubmit}>
           <div className="w-full">
             <label

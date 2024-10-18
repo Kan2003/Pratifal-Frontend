@@ -8,12 +8,13 @@ import ChangePassword from "./components/ChangePassword.jsx";
 export const UserContext = createContext();
 
 // Lazy load components
-const Register = lazy(() => import("./components/Ragister.jsx"));
-const Login = lazy(() => import("./components/Login.jsx"));
-const PrivateRoute = lazy(() => import("./components/PrivateRoute.jsx"));
-const Home = lazy(() => import("./components/Home.jsx"));
-const Page = lazy(() => import("./components/Page.jsx"));
-const Profile = lazy(() => import("./components/Profile.jsx"));
+import Register from "./components/Ragister.jsx";
+import Login from "./components/Login.jsx";
+import PrivateRoute from "./components/PrivateRoute.jsx";
+import Home from "./components/Home.jsx";
+import Page from "./components/Page.jsx";
+import Profile from "./components/Profile.jsx";
+
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(localStorage.getItem('isAuthenticated') === 'true');

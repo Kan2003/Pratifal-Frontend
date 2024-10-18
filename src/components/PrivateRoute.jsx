@@ -19,24 +19,6 @@ const PrivateRoute = ({ children, isAuthenticated, setIsAuthenticated }) => {
   });
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const { data } = await axios.get("/api/v2/users/verify-token", {
-          withCredentials: true,
-        });
-        localStorage.setItem("isAuthenticated", data.isValid);
-        setIsAuthenticated(data.isValid);
-      } catch (error) {
-        console.error("Error verifying token:", error);
-        localStorage.removeItem("isAuthenticated");
-        setIsAuthenticated(false);
-      }
-    };
-
-    checkAuth();
-  }, []);
-
   const refreshTokenHandler = async () => {
     if (!tokens.refreshToken) return;
 
@@ -57,6 +39,26 @@ const PrivateRoute = ({ children, isAuthenticated, setIsAuthenticated }) => {
       console.error("Error refreshing token:", error);
     }
   };
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const { data } = await axios.get("/api/v2/users/verify-token", {
+          withCredentials: true,
+        });
+        localStorage.setItem("isAuthenticated", true);
+        setIsAuthenticated(true);
+      } catch (error) {
+        console.error("Error verifying token:", error);
+        localStorage.removeItem("isAuthenticated");
+        setIsAuthenticated(false);
+      }
+    };
+
+    checkAuth();
+  }, []);
+
+
 
   const checkTokenExpiry = () => {
     console.log("Checking access token expiration...");
@@ -121,6 +123,7 @@ const PrivateRoute = ({ children, isAuthenticated, setIsAuthenticated }) => {
           userImage={user?.profile}
           setSearch={setSearch}
           setShowCreateForm={setShowCreateForm}
+          showCreateForm={showCreateForm}
         />
       )}
       {children}
