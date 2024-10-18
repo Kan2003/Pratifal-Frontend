@@ -12,7 +12,7 @@ import leftArrow from "../assets/leftArrow.svg";
 const DashBoardNavbar = memo(
   ({ user, userImage, handleLogout, setSearch, setShowCreateForm , showCreateForm }) => {
     const location = useLocation();
-    // console.log(location);
+    // console.log(location.pathname);
     const [drop, setDrop] = useState(false);
     const handleDropDown = () => {
       setDrop((prev) => !prev);
@@ -48,7 +48,7 @@ const DashBoardNavbar = memo(
       },
       {
         label: (
-          (!showCreateForm && (location.path === '/dashboard')) &&  (<div onClick={() => {
+          (!showCreateForm && (location.pathname === '/dashboard')) &&  (<div onClick={() => {
             handleDropDown();
             openRewardForm()
           }} >
@@ -100,7 +100,7 @@ const DashBoardNavbar = memo(
     }, [fullSearch]);
     return (
       <>
-        <div className="w-full fixed shadow-lg xs:px-2 sm:px-4 2xl:bg-green-300 xl:bg-yellow-50 lg:bg-red-400 md:bg-pink-300 sm:bg-purple-400 xs:bg-orange-400 bg-slate-50 flex items-center z-[100] justify-between h-[60px] px-4 xs:h-[50px] sm:h-[60px] transition-all duration-300 ease-in-out ">
+        <div className="w-full fixed shadow-lg xs:px-2 sm:px-4 bg-slate-50 flex items-center z-[100] justify-between h-[60px] px-4 xs:h-[50px] sm:h-[60px] transition-all duration-300 ease-in-out ">
           {/* Logo */}
           {!fullSearch && (
             <Link to="/dashboard">
@@ -141,10 +141,10 @@ const DashBoardNavbar = memo(
               )}
               <div
                 onClick={() => setFullSearch(!fullSearch)}
-                className="w-[35px]  cursor-pointer xs:flex sm:hidden h-[35px] rounded-full border-[1px] border-zinc-600 flex items-center justify-center"
+                className="w-[35px]  cursor-pointer xs:flex sm:hidden h-[35px] rounded-full hover:bg-zinc-200  hover:backdrop-blur-3xl  flex items-center justify-center"
               >
                 <img
-                  className="w-[60%] h-[60%]"
+                  className="w-[50%] h-[50%]"
                   src={search}
                   alt="Search Icon"
                 />
