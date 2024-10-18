@@ -5,6 +5,7 @@ import onStar from "../../assets/lightning_on.svg";
 import edit from "../../assets/edit.svg";
 import copy from "../../assets/copy.svg";
 import axios from "axios";
+import bgImage from '../../assets/bgGift.png'
 import EditReward from "../EditReward";
 
 const Card = ({ reward, id, totalReward, setTotalReward }) => {
@@ -32,7 +33,10 @@ const Card = ({ reward, id, totalReward, setTotalReward }) => {
       const response = await axios.delete(`/api/v2/reward/delete-reward/${id}`);
       console.log(response.data);
       if (response.status === 200) {
-        setTotalReward(totalReward.filter((r) => r._id !== id));
+        const updatedRewards = totalReward.filter((r) => r._id !== id)
+        setTotalReward(updatedRewards);
+
+        console.log(updatedRewards , 'updated')
         console.log("reward deleteed successfully");
       }
     } catch (error) {
@@ -41,7 +45,6 @@ const Card = ({ reward, id, totalReward, setTotalReward }) => {
   };
 
   // starrred
-  const [isStarred, setisStarred] = useState(reward.starred);
 
   const toggleStarred = async () => {
     try {
@@ -50,12 +53,11 @@ const Card = ({ reward, id, totalReward, setTotalReward }) => {
 
       if (response.status === 200) {
         const toggleReward = response.data.message;
-
+        console.log(toggleReward,'toggleREward')
         const updatedRewards = totalReward.map((r) =>
-          r.id === id ? { ...r, starred: toggleReward.starred } : r
+          r._id === id ? { ...r, starred: toggleReward.starred } : r
         );
         setTotalReward(updatedRewards);
-        setisStarred(!isStarred);
       }
     } catch (error) {
       console.error(error);
@@ -70,7 +72,7 @@ const Card = ({ reward, id, totalReward, setTotalReward }) => {
 
   return (
     <>
-      <div className="w-[300px] h-[190px] rounded-2xl bg-[#d9d9d971] flex flex-col justify-between px-[10px] py-[8px] border-[1px] bg-bottom bg-cover border-zinc-500 shadow-md  object-cover ">
+      <div style={{ backgroundImage: `url(${bgImage})` }} className="w-[300px] h-[190px] text-white rounded-2xl bg-[#d9d9d971] flex flex-col justify-between px-[10px] py-[8px] border-[1px] bg-bottom bg-cover border-zinc-500 shadow-md  object-cover ">
         <div className="w-full flex items-center justify-end gap-2">
           <img
             onClick={handleEditCard}
@@ -87,7 +89,7 @@ const Card = ({ reward, id, totalReward, setTotalReward }) => {
 
           <img
             className={`w-[17px] cursor-pointer text-white`}
-            src={isStarred ? onStar : star}
+            src={reward.starred ? onStar : star}
             onClick={toggleStarred}
             alt=""
           />
@@ -110,7 +112,7 @@ const Card = ({ reward, id, totalReward, setTotalReward }) => {
         </div>
       </div>
       {/* edit part */}
-      {isEdit && <EditReward reward={reward} setIsEdit={setIsEdit} totalReward={totalReward} setTotalReward={setTotalReward} />}
+      {isEdit && <EditReward reward={reward} setIsEdit={setIsEdit} totalReward={totalReward} setTotalReward={setTotalReward} />}  
     </>
   );
 };

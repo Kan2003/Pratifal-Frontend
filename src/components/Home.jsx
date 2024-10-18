@@ -30,6 +30,7 @@ const Home = () => {
     };
     allRewards();
   }, []);
+  console.log(totalReward)
 
   // search functionality
 
