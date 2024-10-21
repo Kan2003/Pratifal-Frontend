@@ -78,7 +78,7 @@ const Login = ({ setIsAuthenticated }) => {
     e.preventDefault();
 
     try {
-      const Response = await axios.post("https://backend-reward.onrender.com/api/v2/users/login", {
+      const Response = await axios.post("/api/v2/users/login", {
         email,
         password,
       });

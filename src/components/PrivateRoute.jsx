@@ -24,7 +24,7 @@ const PrivateRoute = ({ children, isAuthenticated, setIsAuthenticated }) => {
 
     try {
       console.log("Refreshing access token...");
-      const { data } = await axios.post("https://backend-reward.onrender.com/api/v2/users/refresh-accesstoken", {
+      const { data } = await axios.post("/api/v2/users/refresh-accesstoken", {
         refreshToken: tokens.refreshToken,
       });
 
@@ -43,7 +43,7 @@ const PrivateRoute = ({ children, isAuthenticated, setIsAuthenticated }) => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const { data } = await axios.get("https://backend-reward.onrender.com/api/v2/users/verify-token", {
+        const { data } = await axios.get("/api/v2/users/verify-token", {
           withCredentials: true,
         });
         console.log('data' , data)
@@ -86,7 +86,7 @@ const PrivateRoute = ({ children, isAuthenticated, setIsAuthenticated }) => {
   useEffect(() => {
     const fetchUserDetails = async () => {
       try {
-        const { data } = await axios.get("https://backend-reward.onrender.com/api/v2/users/");
+        const { data } = await axios.get("/api/v2/users/");
         setUser(data.data);
       } catch (error) {
         console.log("first error", error);
@@ -103,7 +103,7 @@ const PrivateRoute = ({ children, isAuthenticated, setIsAuthenticated }) => {
 
   const handleLogout = async () => {
     try {
-      const response = await axios.post("https://backend-reward.onrender.com/api/v2/users/logout");
+      const response = await axios.post("/api/v2/users/logout");
       if (response) {
         localStorage.removeItem("isAuthenticated");
         setIsAuthenticated(false);

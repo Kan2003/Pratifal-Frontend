@@ -27,7 +27,7 @@ const Page = () => {
   useEffect(() => {
     const userDetails = async () => {
       try {
-        const response = await axios.get("https://backend-reward.onrender.com/api/v2/users/", {
+        const response = await axios.get("/api/v2/users/", {
           withCredentials: true,
         });
 
@@ -41,7 +41,7 @@ const Page = () => {
           try {
             // Refresh the access token using refresh token
             const refreshResponse = await axios.post(
-              "https://backend-reward.onrender.com/api/v2/users/refresh-accesstoken",
+              "/api/v2/users/refresh-accesstoken",
               {}, // No need to pass credentials manually, they are in the cookie
               { withCredentials: true } // Ensure refreshToken is sent with the request
             );
@@ -50,7 +50,7 @@ const Page = () => {
 
             // If refresh is successful, retry fetching user details
             if (refreshResponse.status === 200) {
-              const newResponse = await axios.get("https://backend-reward.onrender.com/api/v2/users/", {
+              const newResponse = await axios.get("/api/v2/users/", {
                 withCredentials: true,
               });
 

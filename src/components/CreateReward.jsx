@@ -75,7 +75,7 @@ const CreateReward = ({ setShowCreateForm  , setTotalReward, totalReward}) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("https://backend-reward.onrender.com/api/v2/reward/create-reward", {
+      const response = await axios.post("/api/v2/reward/create-reward", {
         title,
         description,
         couponCode: coupon,

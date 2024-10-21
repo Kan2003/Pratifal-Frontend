@@ -108,7 +108,7 @@ const Register = () => {
     e.preventDefault(); // Prevent page reload
     console.log("Form submission");
     try {
-      const response = await axios.post("https://backend-reward.onrender.com/api/v2/users/ragister", {
+      const response = await axios.post("/api/v2/users/ragister", {
         username: name,
         email,
         password,
