@@ -41,7 +41,7 @@ const EditProfile = ({ setError, setSuccess }) => {
     e.preventDefault(); // Prevent page reload
     console.log("Form submission");
     try {
-      const response = await axios.patch("https://backend-reward.onrender.com/api/v2/users/update-details", {
+      const response = await axios.patch("/api/v2/users/update-details", {
         username: name,
         fullname: fullName,
       });

@@ -6,6 +6,7 @@ import Error from "./littleComponents/Error";
 import Success from "./littleComponents/Success";
 import TextArea from "./littleComponents/TextArea";
 const EditReward = ({ reward, setIsEdit, totalReward, setTotalReward }) => {
+  
   const [title, setTitle] = useState(reward.title);
   const [showTitleError, setShowTitleError] = useState(false);
 
@@ -91,12 +92,11 @@ const EditReward = ({ reward, setIsEdit, totalReward, setTotalReward }) => {
           expiryDate: new Date(expiryDate),
         }
       );
-      console.log(response.data.data);
       if (response.status === 200) {
         setSuccess("Reward updated successfully");
         setTotalReward(
           totalReward.map((r) =>
-            r._id === reward._id ? response.data.data : r
+            r._id === reward._id ? response.data.message : r
           )
         );
       }
