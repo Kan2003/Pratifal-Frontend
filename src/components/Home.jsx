@@ -21,7 +21,7 @@ const Home = () => {
   useEffect(() => {
     const allRewards = async () => {
       try {
-        const response = await axios.get("/api/v2/reward/");
+        const response = await axios.get("https://backend-reward.onrender.com/api/v2/reward/");
 
         setTotalReward(response.data.message);
       } catch (error) {

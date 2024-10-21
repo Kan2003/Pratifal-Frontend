@@ -91,7 +91,7 @@ const ChangePassword = () => {
       }
     }
   };
-
+  
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
@@ -99,7 +99,7 @@ const ChangePassword = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.patch("/api/v2/users/update-password", {
+      const response = await axios.patch("https://backend-reward.onrender.com/api/v2/users/update-password", {
         currentPassword: oldPassword,
         newPassword: newPassword,
         reTypeNewPassword: confirmPassword,

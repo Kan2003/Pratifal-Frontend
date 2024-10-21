@@ -83,7 +83,7 @@ const EditReward = ({ reward, setIsEdit, totalReward, setTotalReward }) => {
     e.preventDefault();
     try {
       const response = await axios.patch(
-        `/api/v2/reward/update-reward/${reward._id}`,
+        `https://backend-reward.onrender.com/api/v2/reward/update-reward/${reward._id}`,
         {
           title,
           description,
