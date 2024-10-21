@@ -9,7 +9,6 @@
     "lint": "eslint .",
     "preview": "vite preview"
   },
-  "proxy": "https://backend-reward.onrender.com",
   "dependencies": {
     "antd": "^5.21.3",
     "axios": "^1.7.7",
