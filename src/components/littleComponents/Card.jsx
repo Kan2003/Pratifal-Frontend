@@ -30,7 +30,7 @@ const Card = ({ reward, id, totalReward, setTotalReward }) => {
   // delete Card
   const handleDelete = async () => {
     try {
-      const response = await axios.delete(`https://backend-reward.onrender.com/api/v2/reward/delete-reward/${id}`);
+      const response = await axios.delete(`/api/v2/reward/delete-reward/${id}`);
       console.log(response.data);
       if (response.status === 200) {
         const updatedRewards = totalReward.filter((r) => r._id !== id)
@@ -48,7 +48,7 @@ const Card = ({ reward, id, totalReward, setTotalReward }) => {
 
   const toggleStarred = async () => {
     try {
-      const response = await axios.patch(`https://backend-reward.onrender.com/api/v2/reward/toggle-reward/${id}`);
+      const response = await axios.patch(`/api/v2/reward//toggle-reward/${id}`);
       // console.log(response.data.message);
 
       if (response.status === 200) {
