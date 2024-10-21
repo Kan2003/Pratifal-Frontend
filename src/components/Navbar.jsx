@@ -29,7 +29,7 @@ const Navbar = ({ user, profile }) => {
               to="/dashboard"
               className="bg-[#F1F3F7] w-[48px] border-[1px] border-zinc-600 h-[48px] rounded-full cursor-pointer flex items-center justify-center overflow-hidden"
             >
-              {profile.length > 4 ? (
+              {profile?.length > 4 ? (
                 <img
                   className="w-full h-full object-cover hover:scale-110 transition-all duration-500 ease-in"
                   src={profile}
