@@ -55,7 +55,7 @@ const Home = () => {
       <div className="w-full pt-[10vw] sm:pt-[20vw] xs:pt-[25vw] pb-[5vw] md:pt-[15vw] lg:pt-[10vw] xl:pt-[10vw] 2xl:pt-[10vw] px-[2vw] relative ">
         <div className="w-full flex items-center justify-center">
           <div className="flex w-full flex-wrap items-center gap-8 justify-center ">
-            {(filterRewards.length > 0) ? (
+            {(filterRewards?.length > 0) ? (
             
               filterRewards.map((reward, index) => (
                 <Card
@@ -67,7 +67,7 @@ const Home = () => {
                 />
               ))
             ) : (
-              totalReward.length > 0 ? (
+              totalReward?.length > 0 ? (
                 <div className="col-span-full h-[60vh] flex  items-center justify-center">
                 <div className="text-center">
                   <p className="text-lg font-semibold font-hanken-grotesk">
