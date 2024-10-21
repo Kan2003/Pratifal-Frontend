@@ -46,6 +46,7 @@ const PrivateRoute = ({ children, isAuthenticated, setIsAuthenticated }) => {
         const { data } = await axios.get("/api/v2/users/verify-token", {
           withCredentials: true,
         });
+        console.log('data' , data)
         localStorage.setItem("isAuthenticated", true);
         setIsAuthenticated(true);
       } catch (error) {
@@ -103,16 +104,17 @@ const PrivateRoute = ({ children, isAuthenticated, setIsAuthenticated }) => {
   const handleLogout = async () => {
     try {
       const response = await axios.post("/api/v2/users/logout");
-      // console.log(response)
       if (response) {
         localStorage.removeItem("isAuthenticated");
         setIsAuthenticated(false);
+        setTokens({ accessToken: null, refreshToken: null }); // clear tokens
         navigate("/");
       }
     } catch (error) {
       console.error("Error logging out:", error);
     }
   };
+  
 
   return (
     <>
