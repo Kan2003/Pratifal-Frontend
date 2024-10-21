@@ -15,9 +15,6 @@ const Profile = () => {
 
   const { user , setUser } = useContext(UserContext);
 
-  if(!user) {
-    location.reload();
-  }
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
