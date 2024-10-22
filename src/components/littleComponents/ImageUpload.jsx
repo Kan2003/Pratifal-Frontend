@@ -20,7 +20,7 @@ const ImageUpload = ({ setImageUpload, user, setUser }) => {
       try {
         // Make API call to upload the image
         const response = await axios.patch(
-          "https://backend-reward.onrender.com/api/v2/users/update-profile",
+          "/api/v2/users/update-profile",
           formData,
           {
             headers: { "Content-Type": "multipart/form-data" },
