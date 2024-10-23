@@ -10,3 +10,6 @@ export default defineConfig({
   },
   plugins: [react()],
 })
+
+
+// vite proxy not works in production

@@ -7,6 +7,17 @@ import copy from "../../assets/copy.svg";
 import axios from "axios";
 import bgImage from '../../assets/bgGift.png'
 import EditReward from "../EditReward";
+const API_URl = import.meta.env.VITE_API_URL;
+
+
+// random card bg 
+
+
+// Math.floor(Math.random() * 5)
+
+
+
+
 
 const Card = ({ reward, id, totalReward, setTotalReward }) => {
   const coupon = reward.couponCode;
@@ -30,14 +41,16 @@ const Card = ({ reward, id, totalReward, setTotalReward }) => {
   // delete Card
   const handleDelete = async () => {
     try {
-      const response = await axios.delete(`/api/v2/reward/delete-reward/${id}`);
+      const response = await axios.delete(`${API_URl}/reward/delete-reward/${id}`, {
+        withCredentials: true, // Include credentials (cookies) in the request
+      });
       console.log(response.data);
       if (response.status === 200) {
         const updatedRewards = totalReward.filter((r) => r._id !== id)
         setTotalReward(updatedRewards);
 
-        console.log(updatedRewards , 'updated')
-        console.log("reward deleteed successfully");
+        // console.log(updatedRewards , 'updated')
+
       }
     } catch (error) {
       console.error(error);
@@ -48,12 +61,17 @@ const Card = ({ reward, id, totalReward, setTotalReward }) => {
 
   const toggleStarred = async () => {
     try {
-      const response = await axios.patch(`/api/v2/reward//toggle-reward/${id}`);
-      // console.log(response.data.message);
+      const response = await axios.patch(
+        `${API_URl}/reward/toggle-reward/${id}`, 
+        {}, // Empty body if no request data is needed
+        {
+          withCredentials: true, // Moved to the Axios config object
+        }
+      );
 
       if (response.status === 200) {
         const toggleReward = response.data.message;
-        console.log(toggleReward,'toggleREward')
+        // console.log(toggleReward,'toggleREward')
         const updatedRewards = totalReward.map((r) =>
           r._id === id ? { ...r, starred: toggleReward.starred } : r
         );

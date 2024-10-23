@@ -5,6 +5,8 @@ import RagisterLoginLayout from "./littleComponents/RagisterLoginLayout";
 import Input from "./littleComponents/Input";
 import Error from "./littleComponents/Error";
 import Success from "./littleComponents/Success";
+import logo from "../assets/logo.png";
+const API_URl = import.meta.env.VITE_API_URL;
 
 const Login = ({ setIsAuthenticated }) => {
   const [email, setEmail] = useState("");
@@ -78,10 +80,14 @@ const Login = ({ setIsAuthenticated }) => {
     e.preventDefault();
 
     try {
-      const Response = await axios.post("/api/v2/users/login", {
-        email,
-        password,
-      });
+      const Response = await axios.post(
+        `${API_URl}/users/login`,
+        {
+          email,
+          password,
+        },
+        { withCredentials: true }
+      );
 
       if (Response.data.success) {
         // Assuming success response from the API
@@ -109,13 +115,21 @@ const Login = ({ setIsAuthenticated }) => {
     }
   };
   return (
-    <div className="w-full h-screen bg-white flex xs:flex-col md:flex-row items-center justify-center xs:justify-around relative">
+    <div className="w-full h-screen bg-white xs:pt-[10vw] sm:pt-[5vw] md:pt-[2vw] lg:pt-0 flex xs:flex-col md:flex-row items-center justify-center xs:justify-around relative">
       {error && <Error error={error} />}
       {success && <Success success={success} />}
+      <div className="fixed w-full bg-slate-50 top-0 left-0 flex pl-3  justify-start items-center">
+        <img className="w-[50px] h-[50px]" src={logo} alt="" />
 
+        <Link
+          className="text-black text-2xl xs:text-xl md:text-2xl font-headlandOne"
+          to="/"
+        >
+          Pratifal
+        </Link>
+      </div>
       <RagisterLoginLayout />
       <div className="w-[50vw] xs:w-full sm:w-[80%] md:w-[50vw] h-full flex items-start flex-col pt-[15vw] xs:pt-[0vw]  md:pt-[25vw] lg:pt-[15vw] font-headlandOne px-[8vw] xs:px-[5vw]">
-        <h1>Logo</h1>
         <form className="w-full h-full" onSubmit={handleSubmit}>
           <div className="w-full">
             <label

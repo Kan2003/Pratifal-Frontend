@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import Navbar from "./Navbar";
 import Lenis from "lenis";
 import SignupButton from "./littleComponents/SignupButton";
@@ -8,7 +8,11 @@ import video from "../assets/Untitled Video.mp4";
 import ColorButton from "./littleComponents/ColorButton";
 import axios from "axios";
 import HorizontalScroll from "./littleComponents/HorizontalScroll";
-const Page = () => {
+const API_URl = import.meta.env.VITE_API_URL;
+
+const Page = ({handleLogout}) => {
+
+  
   useEffect(() => {
     const lenis = new Lenis();
 
@@ -27,7 +31,7 @@ const Page = () => {
   useEffect(() => {
     const userDetails = async () => {
       try {
-        const response = await axios.get("/api/v2/users/", {
+        const response = await axios.get(`${API_URl}/users/`, {
           withCredentials: true,
         });
 
@@ -41,7 +45,7 @@ const Page = () => {
           try {
             // Refresh the access token using refresh token
             const refreshResponse = await axios.post(
-              "/api/v2/users/refresh-accesstoken",
+              `${API_URl}/users/refresh-accesstoken`,
               {}, // No need to pass credentials manually, they are in the cookie
               { withCredentials: true } // Ensure refreshToken is sent with the request
             );
@@ -50,7 +54,7 @@ const Page = () => {
 
             // If refresh is successful, retry fetching user details
             if (refreshResponse.status === 200) {
-              const newResponse = await axios.get("/api/v2/users/", {
+              const newResponse = await axios.get(`/${API_URl}/users/`, {
                 withCredentials: true,
               });
 
@@ -74,7 +78,7 @@ const Page = () => {
   return (
     // style={{ backgroundImage: `url(${background})` }} background image style
     <div className="w-full bg-no-repeat">
-      <Navbar user={user} profile={profile} />
+      <Navbar user={user} profile={profile} handleLogout={handleLogout} />
       <div className="w-full relative pt-[7vw] ">
         <div className="flex px-[2vw] items-center justify-center flex-col gap-5 py-14">
           <h1 className=" text-[40px] xs:text-[30px] sm:text-[30px] md:text-[40px]  lg:text-[40px] xl:text-[40px] 2xl:text-[40px] text-center font-headlandOne ">

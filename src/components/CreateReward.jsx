@@ -5,6 +5,7 @@ import axios from "axios";
 import Error from "./littleComponents/Error";
 import Success from "./littleComponents/Success";
 import TextArea from "./littleComponents/TextArea";
+const API_URl = import.meta.env.VITE_API_URL;
 
 const CreateReward = ({ setShowCreateForm  , setTotalReward, totalReward}) => {
   const [title, setTitle] = useState("");
@@ -75,11 +76,13 @@ const CreateReward = ({ setShowCreateForm  , setTotalReward, totalReward}) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("/api/v2/reward/create-reward", {
+      const response = await axios.post(`${API_URl}/reward/create-reward`, {
         title,
         description,
         couponCode: coupon,
         expiryDate: new Date(expiryDate),
+      }, {
+        withCredentials: true, // Include credentials (cookies) in the request
       });
       console.log(response.data.message)
       const newReward = response.data.message;

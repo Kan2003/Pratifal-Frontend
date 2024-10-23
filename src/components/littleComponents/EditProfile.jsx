@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { UserContext } from "../../App";
 import Input from "./Input";
 import axios from "axios";
+const API_URl = import.meta.env.VITE_API_URL;
 
 const EditProfile = ({ setError, setSuccess }) => {
   const { setUser } = useContext(UserContext);
@@ -41,9 +42,11 @@ const EditProfile = ({ setError, setSuccess }) => {
     e.preventDefault(); // Prevent page reload
     console.log("Form submission");
     try {
-      const response = await axios.patch("/api/v2/users/update-details", {
+      const response = await axios.patch(`${API_URl}/users/update-details`, {
         username: name,
         fullname: fullName,
+      }, {
+        withCredentials: true, // Include credentials (cookies) in the request
       });
       // console.log(response.data.data)
       setUser(response.data.data);
@@ -54,7 +57,11 @@ const EditProfile = ({ setError, setSuccess }) => {
       setSuccess("User Updated successful!");
       setName("");
       setFullName("");
-      setError("");
+      setTimeout(() => {
+        setError("");
+        setSuccess("");
+      })
+
     } catch (error) {
       // console.log(error.status , 'error');
       const status = error.status;
@@ -74,9 +81,9 @@ const EditProfile = ({ setError, setSuccess }) => {
   };
 
   return (
-    <div className="bg-slate-100 w-[55%]  px-4 py-2 rounded-lg">
+    <div className="bg-slate-100 w-[55%] xs:w-[90%] sm:w-[55%]  px-4 py-2 rounded-lg">
       <h1 className="font-Harmattan text-[30px] opacity-[40%]">Edit Profile</h1>
-      <form className="w-[80%] py-[2vw] px-[5vw]" onSubmit={handleSubmit}>
+      <form className="w-[80%] xs:w-full sm:w-[80%] py-[2vw] px-[5vw]" onSubmit={handleSubmit}>
         <Input
           error={showFullnameError}
           id="fullname"

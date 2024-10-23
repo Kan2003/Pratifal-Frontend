@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "../assets/logo.png";
 import SignupButton from "./littleComponents/SignupButton";
@@ -6,14 +6,15 @@ import profileImage from "../assets/Group 1000005837.svg";
 import login from "../assets/login-svgrepo-com.svg";
 import logout from "../assets/logout-svgrepo-com.svg";
 
-const Navbar = ({ user, profile }) => {
+
+const Navbar = ({ user, profile , handleLogout}) => {
   return (
     <div className="w-full fixed shadow-lg bg-slate-50 flex items-center z-[100] justify-between  h-[60px] px-2 ">
       <div>
         <div className="flex gap-1 items-center justify-center">
           <img className="w-[50px] h-[50px]" src={logo} alt="" />
 
-          <h1 className="text-black text-2xl font-headlandOne">PratiFal</h1>
+          <h1 className="text-black text-2xl xs:text-xl md:text-2xl font-headlandOne">PratiFal</h1>
         </div>
       </div>
       <div className="flex gap-5">
@@ -21,7 +22,7 @@ const Navbar = ({ user, profile }) => {
           <div className="flex items-center  gap-4">
             {/* // logout button functionality is remaining */}
             <div className="bg-zinc-400 cursor-pointer group py-1 px-3 rounded-3xl tracking-wide  font-headlandOne flex items-center gap-[2px]">
-              <Link className="text-[12px] pl-2">Logout</Link>
+              <Link onClick={() => handleLogout()} className="text-[12px] pl-2">Logout</Link>
 
               <img className="w-[30px] h-[30px]" src={logout} alt="" />
             </div>
@@ -45,16 +46,16 @@ const Navbar = ({ user, profile }) => {
         ) : (
           <div className="flex items-center gap-4">
             <SignupButton
-              text="Sign Up for free"
+              text="Sign Up"
               color="bg-zinc-900"
               textColor="text-white"
             />
-            <div className="bg-zinc-400 cursor-pointer group py-1 px-3 rounded-3xl tracking-wide  font-headlandOne flex items-center gap-[2px]">
-              <Link className="text-[12px] pl-2" to="/login">
+            <div className="bg-zinc-400 xs:px-1 md:px-3 cursor-pointer group py-1 px-3 rounded-3xl tracking-wide  font-headlandOne flex items-center gap-[2px]">
+              <Link className="text-[12px] pl-2 xs:text-[10px]" to="/login">
                 Login
               </Link>
 
-              <img className="w-[30px] h-[30px]" src={login} alt="" />
+              <img className="w-[30px] h-[30px] xs:w-[20px]  xs:h-[20px] sm:w-[30px] sm:h-[30px] " src={login} alt="" />
             </div>
           </div>
         )}

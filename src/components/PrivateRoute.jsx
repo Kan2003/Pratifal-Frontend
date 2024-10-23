@@ -3,8 +3,9 @@ import React, { useContext, useEffect, useState, useMemo } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { UserContext } from "../App";
 import DashBoardNavbar from "./DashBoardNavbar";
+const API_URl = import.meta.env.VITE_API_URL;
 
-const PrivateRoute = ({ children, isAuthenticated, setIsAuthenticated }) => {
+const PrivateRoute = ({ handleLogout ,  children, isAuthenticated, setIsAuthenticated }) => {
   const {
     user,
     setUser,
@@ -12,19 +13,20 @@ const PrivateRoute = ({ children, isAuthenticated, setIsAuthenticated }) => {
     setSearch,
     showCreateForm,
     setShowCreateForm,
+    tokens,
+    setTokens
   } = useContext(UserContext);
-  const [tokens, setTokens] = useState({
-    accessToken: null,
-    refreshToken: null,
-  });
+ 
   const navigate = useNavigate();
+
+
 
   const refreshTokenHandler = async () => {
     if (!tokens.refreshToken) return;
 
     try {
       console.log("Refreshing access token...");
-      const { data } = await axios.post("/api/v2/users/refresh-accesstoken", {
+      const { data } = await axios.post(`${API_URl}/users/refresh-accesstoken`, {
         refreshToken: tokens.refreshToken,
       });
 
@@ -43,7 +45,7 @@ const PrivateRoute = ({ children, isAuthenticated, setIsAuthenticated }) => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const { data } = await axios.get("/api/v2/users/verify-token", {
+        const { data } = await axios.get(`${API_URl}/users/verify-token`, {
           withCredentials: true,
         });
         console.log('data' , data)
@@ -86,7 +88,9 @@ const PrivateRoute = ({ children, isAuthenticated, setIsAuthenticated }) => {
   useEffect(() => {
     const fetchUserDetails = async () => {
       try {
-        const { data } = await axios.get("/api/v2/users/");
+        const { data } = await axios.get(`${API_URl}/users`,{
+          withCredentials: true, // Include cookies with the request
+        });
         setUser(data.data);
       } catch (error) {
         console.log("first error", error);
@@ -101,19 +105,10 @@ const PrivateRoute = ({ children, isAuthenticated, setIsAuthenticated }) => {
     return <Navigate to="/login" />;
   }
 
-  const handleLogout = async () => {
-    try {
-      const response = await axios.post("/api/v2/users/logout");
-      if (response) {
-        localStorage.removeItem("isAuthenticated");
-        setIsAuthenticated(false);
-        setTokens({ accessToken: null, refreshToken: null }); // clear tokens
-        navigate("/");
-      }
-    } catch (error) {
-      console.error("Error logging out:", error);
-    }
-  };
+ 
+  
+
+  
   
 
   return (
@@ -123,6 +118,7 @@ const PrivateRoute = ({ children, isAuthenticated, setIsAuthenticated }) => {
           handleLogout={handleLogout}
           user={user}
           userImage={user?.profile}
+          search={search}
           setSearch={setSearch}
           setShowCreateForm={setShowCreateForm}
           showCreateForm={showCreateForm}
